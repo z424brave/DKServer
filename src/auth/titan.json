@@ -1,0 +1,9 @@
+{
+  "name"    : "titan.welcome",
+  "description" : "Authentication & Authorisation module ",
+  "author"  : "Peter Symoens",
+  "version" : "1.0.0",
+  "router" : "router.js",
+  "mount"   : "/auth",
+  "init"    : "init.d.js"
+}

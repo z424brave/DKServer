@@ -1,0 +1,8 @@
+{
+  "name"    : "titan.error",
+  "description" : "shows the errors in the console",
+  "author"  : "Martin Haynes",
+  "version" : "1.0.0",
+  "init"    : "init.d.js",
+  "mount"   : "/error"
+}

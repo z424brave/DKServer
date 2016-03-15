@@ -1,0 +1,8 @@
+{
+  "name" : "titan.languages",
+  "description" : "language management module",
+  "author" : "Peter Symoens",
+  "version" : "1.0.0",
+  "mount" : "/languages",
+  "router" : "router.js"
+}

@@ -1,0 +1,7 @@
+{
+  "name"    : "titan.email",
+  "description" : "Email service",
+  "author"  : "Peter Symoens",
+  "version" : "1.0.0",
+  "mount" : "/mail"
+}

@@ -1,0 +1,8 @@
+{
+  "name" : "titan.node",
+  "description" : "Node management module",
+  "author" : "Peter Symoens",
+  "version" : "1.0.0",
+  "mount" : "/nodes",
+  "router" : "router.js"
+}

@@ -1,0 +1,10 @@
+{
+  "name"    : "titan.test.module2",
+  "author"  : "Martin Haynes",
+  "version" : "1.0.0",
+  "router"  : "titan_test/routes.js",
+  "admin"   : "titan_test/admin.js",
+  "api"     : "titan_test/api.js",
+  "init"    : "titan_test/init.d.js",
+  "mount"   : "/m2"
+}

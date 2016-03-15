@@ -1,0 +1,8 @@
+{
+  "name" : "titan.users",
+  "description" : "User management module",
+  "author" : "Martin Haynes",
+  "version" : "1.0.0",
+  "mount" : "/users",
+  "router" : "router.js"
+}
