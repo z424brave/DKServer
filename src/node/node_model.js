@@ -6,8 +6,6 @@
     let Schema = require('mongoose').Schema;
     let Language = require('../language/language_model');
 
-
-
     let mediaSchema = new Schema ({
         language: Language.schema,
         content: String,
@@ -37,7 +35,7 @@
         user: {type:mongoose.Schema.Types.ObjectId, ref:'User'},
         content: [contentSchema],
         tags: [{type:mongoose.Schema.Types.ObjectId, ref:'Tag'}],
-        type: {type:mongoose.Schema.Types.ObjectId, ref:'Lexicon'},
+        type: String,
         status: {type: String, default: 'active'},
         created: Date,
         updated: Date

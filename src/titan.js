@@ -176,7 +176,7 @@
             if (!this._routesAttached) {
                 this.config().routers().forEach((route) => 
 					{
-						console.log(`adding route : ${route.mount}`);
+					console.log(`adding route : ${JSON.stringify(route)}`);
 						this.app().use(route.mount, require(route.router));
 					}
 				);

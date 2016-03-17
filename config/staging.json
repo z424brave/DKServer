@@ -1,0 +1,8 @@
+{
+  "mongo" : {
+    "uri": "mongodb://ec2-52-50-129-25.eu-west-1.compute.amazonaws.com/titan-db"
+  },
+
+  "seedDB" : true
+
+}

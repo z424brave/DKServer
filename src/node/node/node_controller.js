@@ -18,7 +18,6 @@
         get(req, res, next) {
             var id = req.params.id;
             Node.findById(id)
-                .populate('type')
                 .exec(function (err, result) {
                     if (err) {
                         console.log(err);
@@ -32,9 +31,6 @@
          * Create a node
          */
         save(req, res, next) {
-			console.log(`Node save start`);
-			console.log(`${req.body}`);			
-			console.log(`Node save end`);			
             var node = req.body;
             node.type = node.type._id;
             var tagIds = [];
@@ -44,6 +40,9 @@
             node.tags = tagIds;
             var newNode = new Node(node);
             newNode.status = 'active';
+			console.log(`Node save start`);
+			console.log(JSON.stringify(newNode));			
+			console.log(`Node save end`);						
             newNode.save()
                 .then(node => node = node[0])
                 .then(super.responseWithResult(res))
@@ -56,7 +55,6 @@
 			console.log(`in findUserNodes - ${userId}`);
             Node.find({user: userId, status: 'active'})
                 .populate('user', 'name')
-                .populate('type', 'name')
                 .exec(function (err, result) {
                     if (err) {
                         console.log(err);
@@ -87,7 +85,6 @@
                 .then(super.handleEntityNotFound(res))
                 .then(entity => {
                     Node.findById(entity._id)
-                        .populate('type')
                         .exec(function (err, result) {
                             if (err) {
                                 console.log(err);

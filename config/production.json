@@ -1,0 +1,9 @@
+{
+  "mongo" : {
+    "uri": "mongodb://mongo-titan/titan-db"
+  },
+
+  "seedDB" : true,
+
+  "rootDir" : "/titan"
+}
