@@ -8,7 +8,6 @@
     let router = new express();
     let tagController = new controller();
 
-	router.get('/',  authService.hasRole('user'), tagController.listAll);
     router.get('/:lexiconId/tags/',  authService.hasRole('user'), tagController.list);
     router.get('/:lexiconId/tags/:id', authService.hasRole('user'), tagController.get);
     router.post('/:lexiconId/tags/', authService.hasRole('admin'), tagController.save);

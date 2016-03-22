@@ -48,6 +48,7 @@
     nodeSchema
         .virtual('base')
         .get(function () {
+			console.log(`In nodeSchema virtual base`);
             return {
                 '_id': this._id,
                 'name': this.name,

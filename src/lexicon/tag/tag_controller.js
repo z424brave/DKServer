@@ -2,7 +2,6 @@
     'use strict';
 
     let Lexicon = require('../lexicon/lexicon_model');
-    let Tag = require('./tag_model');	
     let _ = require('lodash');
     let BaseController = require(`${ global.TITAN.CORE}/controllers/base_controller`);
 
@@ -42,14 +41,6 @@
                 .catch(err => next(err));
         }
 
-        listAll(req, res, next) {
-			console.log(`in listAll in tagcontroller`);
-            Tag.find()
-                .then(super.handleEntityNotFound(res))
-                .then(entity => res.json(entity))
-                .catch(err => next(err));
-        }
-				
         update(req, res, next) {
             var lexiconId = req.params.lexiconId;
             var tag = req.body;

@@ -55,6 +55,7 @@
 			console.log(`in findUserNodes - ${userId}`);
             Node.find({user: userId, status: 'active'})
                 .populate('user', 'name')
+//				.populate('tags.tag')
                 .exec(function (err, result) {
                     if (err) {
                         console.log(err);

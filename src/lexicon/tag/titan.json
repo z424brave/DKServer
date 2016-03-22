@@ -3,6 +3,6 @@
   "description" : "Tags management module",
   "author" : "Peter Symoens",
   "version" : "1.0.0",
-  "mount" : "/tags",
+  "mount" : "/lexicons",
   "router" : "router.js"
 }

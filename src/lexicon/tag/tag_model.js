@@ -6,19 +6,13 @@
     let Schema = require('mongoose').Schema;
 
     let tagSchema = new Schema({
-        name: String,
-        lexicon: {type:mongoose.Schema.Types.ObjectId, ref:'Lexicon'},
-        status: {type: String, default: 'active'},
-        created: Date,
-        updated: Date		
+        name: String
     });
 
     tagSchema.pre('save', function (next) {
         baseModel.preCreateUpdate(this, next);
     });
 
-
     module.exports = mongoose.model('Tag', tagSchema);
-
 
 })();

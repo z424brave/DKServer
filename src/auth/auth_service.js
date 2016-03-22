@@ -39,6 +39,26 @@
                 });
         }
 
+		isAuthenticatedNoSec() {
+            return compose()
+            // Validate jwt
+                .use(function (req, res, next) {
+                   validateJwt(req, res, next);
+                })
+                // Attach user to request
+                .use(function (req, res, next) {
+					console.log(`In isAuthenticatedNoSec - ${req.user}`);
+                    User.findById(req.user._id)
+                        .then(user => {
+                            if (! user) {
+                                return res.status(401).end();
+                            }
+                            req.user = user;
+                            next();
+                        })
+                        .catch(err => next(err));
+                });
+        }
         /**
          * Checks if the user role meets the minimum requirements of the route
          */
@@ -49,7 +69,8 @@
             }
 
             return compose()
-                .use(this.isAuthenticated())
+//                .use(this.isAuthenticated())
+                .use(this.isAuthenticatedNoSec())				
                 .use(function meetsRequirements(req, res, next) {
                     if (config.userRoles.indexOf(req.user.role) >=
                         config.userRoles.indexOf(roleRequired)) {
