@@ -116,7 +116,7 @@ Node.find({}).removeAsync()
                         versionMessage: 'version 1',
                         media: [
                             {
-                                content: "Good Morning",
+                                content: "Hello hello",
                                 language: {
                                     name: "English",
                                     iso3166: "EN"
@@ -128,9 +128,17 @@ Node.find({}).removeAsync()
                                     name: "French",
                                     iso3166: "FR"
                                 },
-                                content: "Bonjour",
+                                content: "Allo allo",
                                 _id: "1233456789abcdecomedia02"
-                            }
+                            },
+                            {
+                                language: {
+                                    name: "German",
+                                    iso3166: "DE"
+                                },
+                                content: "Guten Morgen",
+                                _id: "1233456789abcdecomedia05"
+                            }												
                         ]
                     },
 
@@ -156,15 +164,7 @@ Node.find({}).removeAsync()
                                 },
                                 content: "Bonjour",
                                 _id: "1233456789abcdecomedia04"
-                            },
-                            {
-                                language: {
-                                    name: "German",
-                                    iso3166: "DE"
-                                },
-                                content: "Guten Morgen",
-                                _id: "1233456789abcdecomedia05"
-                            }							
+                            }		
                         ]
                     }
                 ]
