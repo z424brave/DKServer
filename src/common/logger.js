@@ -8,7 +8,9 @@
     const COLOR = {
         "error" : "red",
         "warn" : "yellow",
-        "info" : "green"
+        "info" : "green",
+        "todo" : "cyan",
+        "debug" : "blue"
     };
     const MAP = {
         "error" : "error",
@@ -16,7 +18,8 @@
         "warn" : "warn",
         "warning" : "warning",
         "info" : "info",
-        "debug" : "debug"
+        "debug" : "debug",
+        "todo" : "todo"
     };
 
     const DEFAULT_LEVEL = "info";
@@ -97,7 +100,7 @@
          *
          * @see Logging::_log
          *
-         * @param level {string|*} Can ether be a mesasge or the level you wish to log at
+         * @param level {string|*} Can ether be a message or the level you wish to log at
          * @param message {*} The message to log if its an object it will serialized to JSON before been displayed
          *
          * @author Martin Haynes
@@ -161,6 +164,16 @@
             Logger.log("debug" , message);
         }
 
+        /**
+         * Logs a Todo message
+         *
+         * @param message {*} The message to log if its an object it will serialized to JSON before been displayed
+         *
+         * @author Martin Haynes
+         */
+        static todo(message) {
+            Logger.log("todo" , message);
+        }
 
     }
 

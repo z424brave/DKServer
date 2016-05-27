@@ -3,8 +3,10 @@
 
     let Node = require('../node_model');
     let _ = require('lodash');
-    let BaseController = require(`${ global.TITAN.CORE}/controllers/base_controller`);
 
+    const TITAN_GLOBALS = require("../../core/titan_global");
+    const BaseController = require(`${ TITAN_GLOBALS.CORE}/controllers/base_controller`);
+    const Logger = require(`${ TITAN_GLOBALS.COMMON}/logger`);
 
     class ContentController extends BaseController {
 
@@ -47,10 +49,10 @@
          * Create a content item for a node
          */
         save(req, res, next) {
-			console.log(`Content save start`);
-			console.log(`${req.params.node_id}`);			
-			console.log(`${req.body}`);			
-			console.log(`Content save end`);			
+			Logger.info(`Content save start`);
+            Logger.info(`${req.params.node_id}`);
+            Logger.info(`${req.body}`);
+            Logger.info(`Content save end`);
             var nodeId = req.params.node_id;
             var index;
             Node.findById(nodeId)
@@ -60,10 +62,6 @@
                     node.content.push(req.body);
                     return node.save();
                 })
-//               .then(model =>  {
-//					console.log(`in save - ${model}`);
-//					model = model[0].content[index];
-//				})
                 .then(super.responseWithResult(res))
                 .catch(err => next(err));
 
@@ -74,10 +72,10 @@
          * Update a content item of a node
          */
         update(req, res, next) {
-			console.log(`Content update start`);
-			console.log(`${req.params.node_id}`);			
-			console.log(`${req.body}`);			
-			console.log(`Content update end`);			
+            Logger.info(`Content update start`);
+            Logger.info(`${req.params.node_id}`);
+            Logger.info(`${req.body}`);
+            Logger.info(`Content update end`);
             var nodeId = req.params.node_id;
             var content = req.body;
             //todo use update method

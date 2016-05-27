@@ -2,15 +2,11 @@
     'use strict';
 
     let mongoose = require('bluebird').promisifyAll(require('mongoose'));
-    let baseModel = require(`${ global.TITAN.COMMON}/base_model`);
     let Schema = require('mongoose').Schema;
+    const TITAN_GLOBALS = require("../../core/titan_global");
 
     let tagSchema = new Schema({
         name: String
-    });
-
-    tagSchema.pre('save', function (next) {
-        baseModel.preCreateUpdate(this, next);
     });
 
     module.exports = mongoose.model('Tag', tagSchema);

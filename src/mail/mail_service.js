@@ -3,6 +3,9 @@
 
     let nodemailer = require('nodemailer');
 
+    const TITAN_GLOBALS = require('../core/titan_global');
+    const Logger = require(`${TITAN_GLOBALS.COMMON}/logger`);
+
     class MailService {
 
         constructor() {
@@ -11,11 +14,11 @@
 
             //this.transporter.verify(function (error, success) {
             //    if (error) {
-            //        console.log('Mail server connection error: ', error);
+            //        Logger.error('Mail server connection error: ', error);
             //       // throw new Error('SES mail transporter connection failed');
             //
             //    } else {
-            //        console.log('Mail Server is ready to take messages');
+            //        Logger.info('Mail Server is ready to take messages');
             //    }
             //});
 
@@ -28,12 +31,12 @@
                 subject: 'Welcome to Titan',
                 html: this.createWelcomeTemplate(user, password)
             };
-            console.log(`Email - ${mailOptions.html}`);
+            Logger.info(`Email - ${mailOptions.html}`);
             //this.transporter.sendMail(mailOptions, function (error, info) {
             //    if (error) {
             //        throw new Error(error);
             //    }
-            //    console.log('Message sent: ' + info.response);
+            //    Logger.info('Message sent: ' + info.response);
             //});
         }
 

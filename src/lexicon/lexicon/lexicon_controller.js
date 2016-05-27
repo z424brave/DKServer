@@ -1,68 +1,48 @@
 (function () {
     'use strict';
 
-    let Lexicon = require('./lexicon_model');
-    let _ = require('lodash');
-    let BaseController = require(`${ global.TITAN.CORE}/controllers/base_controller`);
+    const path = require("path");
 
+//    const TITAN_GLOBALS = require("../../core/titan_global");
 
-    class LexiconController extends BaseController {
+//    const ModelController = require(`${TITAN_GLOBALS.CORE}/controllers/titan_model_controller`);
+    const ModelController = require("../../core/controllers/titan_model_controller");
 
-        constructor() {
-            super();
+    const Logger = require("../../common/logger");
+
+    let LexiconModel = require('./lexicon_model');
+
+    class LexiconController extends ModelController {
+
+        constructor(req, res) {
+            super(req, res);
+
+            this.MODULE_ROOT = path.join(__dirname);
+            this.MODULE_VIEWS = "views";
+            this.CONTROLLER_ALLOWED_TYPES = ["json"];
+
+            this.setReadme({
+                "POST /"        : "Create a new Lexicon",
+                "PUT /:id"      : "Update an existing Lexicon",
+                "DELETE /:id"   : "Deletes an existing Lexicon",
+                "GET /:id"      : "Get the data for a specific lexicon",
+                "GET /list"     : "List all the existing Lexicons"
+            });
+
+            this.setModel(LexiconModel);
+
         }
 
-
-        get(req, res, next) {
-            return super.get(Lexicon, req, res, next);
+        createLexicon() {
+            Logger.info(`In createLexicon`);
+            this.setModel(new LexiconModel(this.body()));
+            let hasStatus = this.getModel().schema.paths.status ? this.getModel().schema.paths.status.path : "No status";
+            Logger.info(`Lexicon has status : ${JSON.stringify(hasStatus)}`);
+            this.create();
         }
-
-        save(req, res, next) {
-            return super.save(Lexicon, req, res, next);
-        }
-
-        list(req, res, next) {
-            Lexicon.find({status: 'active'})
-                //todo return virtual without tags?
-                .then(types => {
-                    res.status(200).json(types);
-                })
-                .catch(super.handleError(res));
-        }
-
-
-        /**
-         * Update a lexicon
-         */
-        update(req, res, next) {
-            var lexicon = req.body;
-            Lexicon.findByIdAndUpdate(
-                lexicon._id, {
-                    $set: {
-                        name: lexicon.name
-                    }
-                })
-                .then(entity => res.status(200).json('ok'))
-                .catch(err => next(err));
-        }
-
-        /**
-         * Delete a lexicon
-         */
-        delete(req, res, next){
-            var lexiconId = req.params.id;
-                Lexicon.findByIdAndUpdate(
-                    lexiconId , {
-                        $set: {
-                            status: 'deleted'
-                        }
-                    })
-                    .then(entity => res.status(200).json('ok'))
-                    .catch(err => next(err));
-            }
-
 
     }
 
     module.exports = LexiconController;
+
 })();

@@ -2,18 +2,18 @@
     'use strict';
 
     let express = require("express");
-    let userController = require("./user_controller");
+    let Controller = require("./user_controller");
     let authService = require("../auth/auth_service");
     let router = new express();
 
-    //load users for the searchform select box forces the role to be user.
-    //TOOD create extra endpoint that only returns names and id's
-    router.get('/', authService.hasRole('user'), userController.list);
-    router.get('/:id', authService.hasRole('admin'), userController.get);
-    router.post('/', authService.hasRole('admin'), userController.save);
-    router.put('/', authService.hasRole('admin'), userController.update);
-    router.delete('/:id', authService.hasRole('admin'), userController.delete);
+    router.get('/', (req,res) => (new Controller(req,res)).index());
+    router.get('/api/list', (req, res) => (new Controller(req, res)).listUsers());
+    router.get('/list', authService.hasRole('user'), (req, res) => (new Controller(req, res)).listUsers());
+    router.get('/:id', authService.hasRole('user'), (req,res) => (new Controller(req,res)).get());
+    router.post('/', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).createUser());
+    router.put('/:id', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).update());
+    router.delete('/:id', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).deleteInstance());
 
     module.exports = router;
 
-})();
+})(); 

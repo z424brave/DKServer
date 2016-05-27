@@ -1,12 +1,14 @@
 (function () {
     'use strict';
 
-    let express = require("express");
-    let languageController = require("./language_controller");
+    const express = require("express");
+    const Controller = require("./language_controller");
+
     let authService = require("../auth/auth_service");
     let router = new express();
 
-    router.get('/', authService.hasRole('user'), languageController.list);
+    router.get('/', (req,res) => (new Controller(req,res)).index());
+    router.get('/list', authService.hasRole('user'), (req, res) => (new Controller(req, res)).listLanguages());
 
     module.exports = router;
 

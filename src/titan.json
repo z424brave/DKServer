@@ -6,14 +6,19 @@
   "static" : "assets",
   "modules" : [
     "welcome",
+    "mongo",
+    "mail",
+	"s3",
     "error",
     "mail",
     "user",
     "auth",
-    "language",
     "node/node",
     "node/content",
     "lexicon/lexicon",
-    "lexicon/tag"
+    "lexicon/tag",
+    "channels/channels",
+    "channels/channelSettings",
+    "language"
   ]
 }

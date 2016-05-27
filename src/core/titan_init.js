@@ -1,8 +1,11 @@
 (function(){
     "use strict";
 
-    require("./titan_global");
-    let Eventify = require(`${ global.TITAN.COMMON }/eventify`);
+	const TITAN_GLOBALS = require("./titan_global");
+
+    const Logger = require(`${TITAN_GLOBALS.COMMON}/logger`);
+    const Eventify = require(`${ TITAN_GLOBALS.COMMON }/eventify`);
+
 
     class TitanInit extends Eventify {
         constructor (inits) {
@@ -17,6 +20,8 @@
 
         init() {
             this._inits.forEach((initFile) => {
+
+                Logger.info(`Initializing ${initFile}`);
 
                 let InitKlass = require(initFile);
                 let init = new InitKlass();

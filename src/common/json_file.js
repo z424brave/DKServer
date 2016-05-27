@@ -1,8 +1,11 @@
 (function(){
     "use strict";
 
+	const TITAN_GLOBALS = require("../core/titan_global");
+	let Logger = require(`${ TITAN_GLOBALS.COMMON }/logger`);
     let fs = require("fs");
-    let Q = require("q");
+    let readFileWithPromise = require('bluebird').promisify(fs.readFile);
+//    let Q = require("q");
 
     let FileExt = require("./file_ext");
     let Collection = require("./collection");
@@ -25,7 +28,6 @@
 
         constructor(filename, schemaFile) {
             super();
-
             this._filename = filename || null;
             this._schemaFile = schemaFile || null;
             this._schema = this._schemaFile !== null ? new Schema(this._schemaFile) : null;
@@ -55,29 +57,26 @@
         /**
          * Loads a JSON file up Async and populates the collection with the data
          *
-         * @returns {Q.Promise} The Promise for when the file is loaded.
+         * @returns {Promise} The Promise for when the file is loaded.
          *
          * @author Martin Haynes
          */
         load() {
+			Logger.info(`json_file / load - ${this.filename()}`);
             this.exists_or_die();
-            let defer = Q.defer();
-            fs.readFile(this.filename(), ENCODING, (err, data) => {
-                if ( err ) {
-                    defer.reject(err);
-                } else {
-                    try {
-                        let json = JSON.parse(data);
-                        this.data(json);
-                        this._loaded = true;
-                        defer.resolve(this);
-                    } catch (excp) {
-                        defer.reject(`Can not read ${ this.filename() }, not valid JSON`);
-                    }
-                }
-            });
+                return readFileWithPromise(this.filename(), ENCODING)
+                .then((data) => {
+                    let json = JSON.parse(data);
+                    Logger.info(`json_file / loaded - ${JSON.stringify(json)}`);
+                    this.data(json);
+                    this._loaded = true;
+                    return this;
+                })
+                .catch((error) => {
+                    Logger.error("Error reading file", error);
+                    throw new Error(`Can not read ${ this.filename() }, not valid JSON`);
+                });
 
-            return defer.promise;
         }
 
         /**
@@ -88,6 +87,7 @@
          * @author Martin Haynes
          */
         loadSync() {
+			Logger.info(`json_file / loadSync - ${this.filename()}`);			
             this.exists_or_die();
             let data = fs.readFileSync(this.filename() , ENCODING);
             let json = null;
@@ -95,7 +95,7 @@
                 json = JSON.parse(data);
                 this.data(json);
                 this._loaded = true;
-            } catch (excp) {
+            } catch (error) {
                 throw new Error(`Can not read ${ this.filename() }, not valid JSON`);
             }
 

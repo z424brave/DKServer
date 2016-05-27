@@ -3,7 +3,7 @@
 
     let path = require("path");
 
-    const TITAN_GLOBALS = require("titan_global");
+    const GLOBAL = require("./titan_global");
 
     let FileExt = require("../common/file_ext");
     let Eventify = require("../common/eventify");
@@ -44,7 +44,7 @@
         }
 
         _adapterPath() {
-            return path.join(TITAN_GLOBALS.CORE , VIEW_ADAPTERS, `${ this._engineName }.js`);
+            return path.join(GLOBAL.CORE , VIEW_ADAPTERS, `${ this._engineName }.js`);
         }
 
     }

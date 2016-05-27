@@ -1,0 +1,9 @@
+{
+  "name": "titan.channels",
+  "description": "Handles all the incoming and out going channels",
+  "author": "Martin Haynes",
+  "version": "1.0.0",
+  "init": "init.d.js",
+  "mount": "/channels",
+  "router" : "channels.js"
+}

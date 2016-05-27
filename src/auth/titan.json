@@ -1,5 +1,5 @@
 {
-  "name"    : "titan.welcome",
+  "name"    : "titan.auth",
   "description" : "Authentication & Authorisation module ",
   "author"  : "Peter Symoens",
   "version" : "1.0.0",

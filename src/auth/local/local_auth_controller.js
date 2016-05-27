@@ -4,14 +4,17 @@
     let passport = require('passport');
     let authenticationService = require('../auth_service');
 
+    let TITAN_GLOBALS = require("../../core/titan_global");
+    let Logger = require(`${TITAN_GLOBALS.COMMON}/logger`);
+
     class LocalAuthController {
 
         authenticate(req, res, next) {
-			console.log('authenticate');
+			Logger.info('LocalAuthController / authenticate');
             passport.authenticate('local', function (err, user, info) {
-				console.log(`authenticate error : ${err}`);
-				console.log(`authenticate user  : ${user}`);
-				console.log(`authenticate info  : ${JSON.stringify(info)}`);				
+                Logger.info(`authenticate error : ${err}`);
+                Logger.info(`authenticate user  : ${user}`);
+                Logger.info(`authenticate info  : ${JSON.stringify(info)}`);
                 var error = err || info;
                 if (error) {
                     //TODO log error
@@ -22,8 +25,8 @@
                     return res.status(500).json({message: 'Something went wrong, please try again.'});
                 }
 
-                var token = authenticationService.signToken(user._id, user.name, user.role);
-				console.log(`authenticate token : ${token}`);	
+                var token = authenticationService.signToken(user._id, user.name, user.roles);
+                Logger.info(`authenticate token : ${token}`);
                 res.json({token});
             })(req, res, next);
         }

@@ -2,18 +2,18 @@
     'use strict';
 
     let express = require("express");
-    let controller = require("./lexicon_controller");
+    let Controller = require("./lexicon_controller");
     let authService = require("../../auth/auth_service");
 
     let router = new express();
-    let lexiconController = new controller();
 
-    router.get('/', authService.hasRole('user'), lexiconController.list);
-    router.get('/:id', authService.hasRole('user'), lexiconController.get);
-    router.post('/', authService.hasRole('admin'), lexiconController.save);
-    router.put('/', authService.hasRole('admin'), lexiconController.update);
-    router.delete('/:id', authService.hasRole('admin'), lexiconController.delete);
-
+    router.get('/', (req,res) => (new Controller(req,res)).index());
+    router.get('/list', authService.hasRole('user'), (req, res) => (new Controller(req, res)).list());
+    router.get('/api/list', (req, res) => (new Controller(req, res)).list());
+    router.get('/:id', authService.hasRole('user'), (req,res) => (new Controller(req,res)).get());
+    router.post('/', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).createLexicon());
+    router.put('/:id', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).update());
+    router.delete('/:id', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).deleteInstance());
 
     module.exports = router;
 

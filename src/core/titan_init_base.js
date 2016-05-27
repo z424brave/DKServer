@@ -1,9 +1,8 @@
 (function(){
     "use strict";
 
-    require("./titan_global");
-
-    let Eventify = require(`${global.TITAN.COMMON}/eventify`);
+    const TITAN_GLOBALS = require("./titan_global");
+    const Eventify = require(`${TITAN_GLOBALS.COMMON}/eventify`);
 
     const EVENT_UPDATE_APP = "titan.boot.update.app";
     const EVENT_APP_ON = "titan.boot.event.add";

@@ -6,28 +6,33 @@
     let PasswordGenerator = require('./password_generator');
     let Schema = require('mongoose').Schema;
 
-//
-    let userSchema = new Schema({
-        name: String,
-        email: {
-            type: String,
-            lowercase: true
+    const TITAN_GLOBALS = require('../core/titan_global');
+    const Logger = require(`${TITAN_GLOBALS.COMMON}/logger`);
+
+    let userSchema = new Schema(
+        {
+            name: String,
+            email: {
+                type: String,
+                lowercase: true
+            },
+            roles: [
+              {type: String, default: 'user'}
+//              {type:mongoose.Schema.Types.ObjectId, ref:'Role'}
+            ],
+            password: String,
+		    lastLogin: Date,
+            status: {type: String, default: 'active'},
+            salt: String
         },
-        role: {
-            type: String,
-            default: 'user'
-        },
-        password: String,
-        created: Date,
-        updated: Date,
-        status: {type: String, default: 'active'},
-        salt: String
-    });
+        {
+            timestamps : {createdAt: "created", updatedAt: "updated"}
+        }
+    );
 
     /**
      * Virtuals
      */
-
 // Public profile information
     userSchema
         .virtual('profile')
@@ -36,25 +41,26 @@
                 '_id': this._id,
                 'name': this.name,
                 'email': this.email,
-                'role': this.role,
-                'status': this.status
+                'roles': this.roles,
+                'status': this.status,
+	            'lastLogin': this.lastLogin			
             };
         });
 
 // Non-sensitive info we'll be putting in the token
     userSchema
         .virtual('token')
-        .get(function () {
+        .get(() => {
+            Logger.info(`In virtual token - ${this.roles}`);
             return {
                 '_id': this._id,
-                'role': this.role
+                'roles': this.roles
             };
         });
 
     /**
      * Validations
      */
-
 // Validate empty email
     userSchema
         .path('email')
@@ -99,19 +105,13 @@
     userSchema
         .pre('save', function (next) {
 
-            if(this.created === undefined){
-                this.created = new Date();
-            } else {
-                this.updated = new Date();
-            }
-
-			console.log(`pre save password - ${this.password}`);
+            Logger.info(`pre save password - ${this.password}`);
 						
 			if(this.password === undefined) {
 				this.password = PasswordGenerator.generatePassword();
 			}
-			
-			console.log(`pre save password - ${this.password}`);			
+
+            Logger.info(`pre save password - ${this.password}`);
 			
             if (!validatePresenceOf(this.email)) {
                 next(new Error('Email is required'));
@@ -134,7 +134,7 @@
                         next(encryptErr);
                     }
                     this.password = hashedPassword;
-					console.log(`before save 2 - ${this.password}`);
+                    Logger.info(`before save 2 - ${this.password}`);
                     next();
                 });
             });
@@ -153,9 +153,9 @@
          * @api public
          */
         authenticate(password, callback) {
-			console.log(`In User authenticate - ${password}`);			
+            Logger.info(`In User authenticate - ${password}`);
             if (!callback) {
-				console.log("User authenticate - no callback");
+				Logger.info("User authenticate - no callback");
                 return this.password === this.encryptPassword(password);
             }
 
@@ -163,8 +163,9 @@
                 if (err) {
                     return callback(err);
                 }
-				console.log(`User authenticate - in callback - ${password} / ${pwdGen}`);
+                Logger.info(`User authenticate - in callback - ${password} / ${pwdGen}`);
                 if (this.password === pwdGen) {
+                    Logger.info(`User authenticated login - ${this._id} : ${this.email} : ${this.lastLogin}`);
                     callback(null, true);
                 } else {
                     callback(null, false);
@@ -216,7 +217,7 @@
          * @api public
          */
         encryptPassword(password, callback) {
-			console.log(`User encryptPassword - ${password}`);			
+			Logger.info(`User encryptPassword - ${password}`);
             if (!password || !this.salt) {
                 return null;
             }
@@ -226,13 +227,11 @@
             var salt = new Buffer(this.salt, 'base64');
 
             if (!callback) {
-				console.log(`User encryptPassword 2 - ${password}`);					
                 return crypto.pbkdf2Sync(password, salt, defaultIterations, defaultKeyLength)
                     .toString('base64');
             }
 
             return crypto.pbkdf2(password, salt, defaultIterations, defaultKeyLength, (err, key) => {
-				console.log(`User encryptPassword 3 - ${password}`);					
                 if (err) {
                     callback(err);
                 } else {

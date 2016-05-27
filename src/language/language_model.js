@@ -12,4 +12,3 @@
     module.exports = mongoose.model('Language', languageSchema);
 
 })();
-

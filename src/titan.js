@@ -19,16 +19,26 @@
     let chalk = require("chalk");
     let path = require("path");
     let mongoose = require('mongoose');
-    let config = require('../config');
     let bodyParser = require('body-parser');
-    let winston = require('winston');
-    let expressWinston = require('express-winston');
+    const Config = require("config");
 
-    require(`./core/titan_global`);
+    const TITAN_GLOBALS = require(`./core/titan_global`);
 
-    let Eventify = require(`${ global.TITAN.COMMON }/eventify`);
-    let TitanModules = require(`${ global.TITAN.CORE }/titan_modules`);
-    let TitanInit = require(`${ global.TITAN.CORE }/titan_init`);
+    let Eventify = require(`${ TITAN_GLOBALS.COMMON }/eventify`);
+    let TitanModules = require(`${ TITAN_GLOBALS.CORE }/titan_modules`);
+    let TitanInit = require(`${ TITAN_GLOBALS.CORE }/titan_init`);
+    const Logger = require(`${ TITAN_GLOBALS.COMMON}/logger`);
+
+    //TODO - externalise whitelist to config
+
+    const whitelist = ['http://localhost:3000', 'http://localhost:3001'];
+    var corsOptions = {
+        origin: function(origin, callback){
+            let originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+            callback(null, originIsWhitelisted);
+        },
+        credentials: true
+    };
 
     class Titan extends Eventify {
 
@@ -52,29 +62,14 @@
         app() {
             if (null === this._app) {
                 this._app = express();
-                this._app.use(cors());
+                this._app.use(cors(corsOptions));
                 this._app.use(bodyParser.urlencoded({
                     extended: true
                 }));
                 this._app.use(bodyParser.json());
                 this.env = this._app.get('env');
-                console.log(`application starting in ${this.env}`);				
-                this._app.use(expressWinston.logger({
-                    transports: [
-                        new winston.transports.Console({
-                            json: true,
-                            colorize: true
-                        })
-                    ]
-                    //meta: true, // optional: control whether you want to log the meta data about the request (default to true)
-                    //msg: "HTTP {{req.method}} {{req.url}}", // optional: customize the default logging message. E.g. "{{res.statusCode}} {{req.method}} {{res.responseTime}}ms {{req.url}}"
-                    //expressFormat: true, // Use the default Express/morgan request formatting, with the same colors. Enabling this will override any msg and colorStatus if true. Will only output colors on transports with colorize set to true
-                    //colorStatus: true, // Color the status code, using the Express/morgan color palette (default green, 3XX cyan, 4XX yellow, 5XX red). Will not be recognized if expressFormat is true
-                    //ignoreRoute: function (req, res) { return false; } // optional: allows to skip some log messages based on request and/or response
-                }));
-                expressWinston.requestWhitelist.push('body');
-				expressWinston.responseWhitelist.push('headers');
-            }
+				this._app.use(this.logHTTP);
+			}
 
             return this._app;
         }
@@ -116,7 +111,7 @@
 
         config() {
             if (this._titanConfig === null) {
-                this._titanConfig = new TitanModules(global.TITAN.ROOT, global.TITAN.ROOT);
+                this._titanConfig = new TitanModules(TITAN_GLOBALS.APP, TITAN_GLOBALS.APP);
                 this.trigger(EVENT_TITAN_BOOT_CONFIG_LOADED, [this._titanConfig]);
             }
 
@@ -128,7 +123,7 @@
 
                 // Add the main titan asset store
                 this.staticApp().use(DEFAULT_TITAN_ASSETS, express.static(
-                    path.join(global.TITAN.ROOT, this.config().application().find("static"))
+                    path.join(TITAN_GLOBALS.ROOT, this.config().application().find("static"))
                 ));
 
                 // Add all the module asset stores
@@ -141,31 +136,22 @@
             }
         }
 
-        server() {
-            console.log('server starting');
+		logHTTP(req, res, next) {
+			// very basic logging of http requests
+			Logger.info(`HTTP : ${req.method} - ${res.statusCode} - ${req.url}`);
+			next();
+		}
+		
+        server() { 
             if (this._server === null) {
                 this.init();
                 this.attachRoutes();
                 this.staticFiles();
 
-                // Connect to MongoDB
-                mongoose.connect(config.mongo.uri, config.mongo.options);
-                mongoose.connection.on('error', function (err) {
-                    console.error('MongoDB connection error: ' + err);
-                    process.exit(-1);
-                });
-				console.log(`server connected to mongo : ${config.mongo.uri}`);				
-                if (config.seedDB) {
-					console.log(`seeding mongo`);	
-                    require('../config/seed');
-                }
-
-
                 this._server = this.app().listen(this._port, () => {
                     let host = this._server.address().address;
                     let port = this._server.address().port;
-                    console.log(`server started - port is ${port}`);
-                    //this.trigger(EVENT_TITAN_BOOT_SERVER_STARTED , [host, port]);
+                    this.trigger(EVENT_TITAN_BOOT_SERVER_STARTED , [host, port]);
                 });
             }
 
@@ -176,7 +162,7 @@
             if (!this._routesAttached) {
                 this.config().routers().forEach((route) => 
 					{
-					console.log(`adding route : ${JSON.stringify(route)}`);
+						Logger.info(`adding route : ${route.mount}`);
 						this.app().use(route.mount, require(route.router));
 					}
 				);
@@ -193,7 +179,7 @@
 
                 let apiPath = this.config().application().has("api_prefix") ?
                     this.config().application().find("api_prefix") : DEFAULT_API_PREFIX;
-
+                Logger.info(`API Path is ${apiPath}`);
                 this.app().use(adminPath, this.admin());
                 this.app().use(apiPath, this.api());
             }

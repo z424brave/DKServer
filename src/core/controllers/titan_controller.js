@@ -4,12 +4,13 @@
     let path = require("path");
     let _ = require("lodash");
 
-    let TitanGlobals = require("../titan_global");
-    let Collection = require("../../common/collection");
-    let HTTPStatus = require("../../common/httpErrors");
-    let Logger = require("../../common/logger");
+    let TITAN_GLOBALS = require("../titan_global");
     let TitanConfig = require("../titan_config");
     let TitanView = require("../titan_view");
+
+    let Collection = require(`${TITAN_GLOBALS.COMMON}/collection`);
+    let HTTPStatus = require(`${TITAN_GLOBALS.COMMON}/httpErrors`);
+    let Logger = require(`${TITAN_GLOBALS.COMMON}/logger`);
 
     const MIMES = {
         html : "text/html",
@@ -18,15 +19,16 @@
 
     const ERROR_TEMPLATE = "error";
 
+    // new GrahamController(res,req).saveGraham();
+    
     class TitanController extends Collection {
 
         constructor(req, res, options) {
             // Overwrite these to customize your controller
+            super();
             this.MODULE_ROOT = __dirname;
             this.MODULE_VIEWS = "views";
             this.CONTROLLER_ALLOWED_TYPES = ["html" , "json"];
-
-            super();
             this._req = req;
             this._res = res;
             this._module = null;
@@ -53,6 +55,10 @@
 
         notFound(message) {
             this.httpError(404, message);
+        }
+
+        bad(message) {
+            this.httpError(400, message);
         }
 
         methodNotAllowed(message) {
@@ -89,7 +95,12 @@
             return this._module;
         }
 
+        mountPoint() {
+            return this.module().mount;
+        }
+
         outs(template, code, data) {
+            Logger.info(`In outs : ${template} - ${code} - ${data}`);
             code = code || 200;
             data = data || {};
 
@@ -100,8 +111,8 @@
 
             if(this.isAllowed("html")) {
                 let path = code === 200 ? path.join(this.MODULE_ROOT, this.module().find("view.path") || this.MODULE_VIEWS, template) :
-                    path.join(TitanGlobals.VIEWS , template);
-                let view = new TitanView(this.module().find("veiw.engine"));
+                    path.join(TITAN_GLOBALS.VIEWS , template);
+                let view = new TitanView(this.module().find("view.engine"));
                 response[MIMES.html] = () => this.res().send(view.render(path, payload));
             }
 

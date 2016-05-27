@@ -4,10 +4,11 @@
     let path = require("path");
     let _ = require("lodash");
 
-    let TitanGlobals = require("./titan_global");
-    let TitanConfig = require("./titan_config");
+	const TITAN_GLOBALS = require("./titan_global");
+    const TitanConfig = require("./titan_config");
 
-    let Eventify = require(`${ global.TITAN.COMMON }/eventify`);
+    const Eventify = require(`${TITAN_GLOBALS.COMMON }/eventify`);
+    const Logger = require(`${TITAN_GLOBALS.COMMON}/logger`);
 
     const TYPE_ADMIN    = "admin";
     const TYPE_ROUTER   = "router";
@@ -20,7 +21,7 @@
          * Initializes the Module
          *
          * @param rootTitan {string} The file to use as the root titan file
-         * @param moduleBase = global.TITAN.ROOT {string} The base to hunt for the modules defined in rootTitan
+         * @param moduleBase = TITAN_GLOBALS.ROOT {string} The base to hunt for the modules defined in rootTitan
          */
         constructor(rootTitan, moduleBase) {
 
@@ -31,7 +32,7 @@
             super();
 
             this._rootTitan     = rootTitan;
-            this._moduleBase    = moduleBase || global.TITAN.ROOT;
+            this._moduleBase    = moduleBase || TITAN_GLOBALS.ROOT;
             this._application   = null;
             this._modules       = null;
             this._routers       = null;
@@ -74,6 +75,7 @@
                         let moduleInstance = new TitanConfig(modulePath);
                         moduleInstance.loadConfig();
                         this._modules[moduleInstance.name] = moduleInstance;
+                        Logger.info(`Adding Module ${moduleInstance.name}`);
                     });
                 }
             }
@@ -138,6 +140,7 @@
         inits() {
             if ( this._inits === null ) {
                 this._inits = [];
+                
                 _.each(this.modules() , (module) => {
                    if ( module.has("init") ) {
                        this._inits.push(path.join(module.path(), module.find("init")));

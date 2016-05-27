@@ -1,34 +1,21 @@
 (function(){
     "use strict";
 
-    let path = require("path");
-    let config = require('../../config');
-    let rootDir = config.rootDir;
+    const path = require("path");
 
-    if(!rootDir) {
-        rootDir = process.cwd();
-    }
-
-    const ROOT = path.join(rootDir, "src");
-
-    console.log('root: ' + ROOT);
-
-    global.TITAN = {
+    const ROOT = process.cwd();
+    const APP = path.join(ROOT, "src");
+    const PATHS = {
         ROOT: ROOT,
-        SCHEMA: path.join(ROOT, "schema"),
-        COMMON: path.join(ROOT, "common"),
-        CORE: path.join(ROOT, "core"),
-        SETTINGS: path.join(ROOT, "settings"),
-        VIEWS: path.join(ROOT, "views")
+        APP: APP,
+        SCHEMA: path.join(APP, "schema"),
+        COMMON: path.join(APP, "common"),
+        CORE: path.join(APP, "core"),
+        SETTINGS: path.join(ROOT, "config"),
+        VIEWS: path.join(APP, "views")
     };
 
-    module.exports = {
-        ROOT: ROOT,
-        SCHEMA: path.join(ROOT, "schema"),
-        COMMON: path.join(ROOT, "common"),
-        CORE: path.join(ROOT, "core"),
-        SETTINGS: path.join(ROOT, "settings"),
-        VIEWS: path.join(ROOT, "views")
-    };
+ //   global.TITAN = PATHS;
+    module.exports = PATHS;
 
 })();

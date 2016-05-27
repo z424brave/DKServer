@@ -1,125 +1,111 @@
 (function () {
     'use strict';
 
-    let Node = require('../node_model');
-    let _ = require('lodash');
-    let BaseController = require(`${ global.TITAN.CORE}/controllers/base_controller`);
+    const path = require("path");
 
+    const ModelController = require("../../core/controllers/titan_model_controller");
+    const Logger = require("../../common/Logger");
 
-    class NodeController extends BaseController {
+    let NodeModel = require('../node_model');
 
-        constructor() {
-            super();
+    class NodeController extends ModelController {
+
+        constructor(req, res) {
+            
+            super(req, res);
+
+            this.MODULE_ROOT = path.join(__dirname);
+            this.MODULE_VIEWS = "views";
+            this.CONTROLLER_ALLOWED_TYPES = ["json"];
+
+            this.setReadme({
+                "POST /"        : "Create a new Node",
+                "PUT /:id"      : "Update an existing Node",
+                "DELETE /:id"   : "Deletes an existing Node",
+                "GET /:id"      : "Get the data for a specific Node",
+                "GET /list"     : "List all the existing Nodes"
+            });
+
+            this.setModel(NodeModel);
+
         }
+        storeNode() {
 
-        /**
-         * Get a single node
-         */
-        get(req, res, next) {
-            var id = req.params.id;
-            Node.findById(id)
-                .exec(function (err, result) {
-                    if (err) {
-                        console.log(err);
-                        res.status(5000).json(err);
-                    }
-                    res.json(result);
-                });
+            Logger.info(`store node - ${JSON.stringify(this.req().file)}`);
+            let uploadResponse = {};
+            uploadResponse.status = 'ok';
+            uploadResponse.filename = this.req().file.originalname;
+            this.send(uploadResponse);
         }
-
         /**
          * Create a node
          */
-        save(req, res, next) {
-            var node = req.body;
-            node.type = node.type._id;
-            var tagIds = [];
+        createNode() {
+
+            Logger.info(`create node - ${JSON.stringify(this.body())}`);
+/*            let node = this.body();
+            let tagIds = [];
+
             for(var tag of node.tags){
                 tagIds.push(tag._id);
             }
+
             node.tags = tagIds;
-            var newNode = new Node(node);
-            newNode.status = 'active';
-			console.log(`Node save start`);
-			console.log(JSON.stringify(newNode));			
-			console.log(`Node save end`);						
-            newNode.save()
-                .then(node => node = node[0])
-                .then(super.responseWithResult(res))
-                .catch(super.handleError(res));
+            node.status = 'active';*/
+
+            this.setModel(new NodeModel(this.body()));
+			this.create();			
+
         }
 
-
-        findUserNodes(req, res, next) {
-            var userId = req.params.userId;
-			console.log(`in findUserNodes - ${userId}`);
-            Node.find({user: userId, status: 'active'})
+        list() {
+            let queryObject = this.convertSearch(this.req().query);
+            Logger.info(`nc : In list ${this.getModel().modelName}`);
+            Logger.info(`nc : Query Parameters : ${JSON.stringify(this.req().query)}`);
+            Logger.info(`nc : Query Object is : ${JSON.stringify(queryObject)}`);
+//            this.getModel().find(queryObject)
+            this.getModel().find(this.req().query)
                 .populate('user', 'name')
-//				.populate('tags.tag')
-                .exec(function (err, result) {
+                .then((data) => {
+                    this.send(data);
+                }).catch((err) => {
+                    this.serverError();
+                    Logger.error(err);
+                }
+            );
+        }
+
+        findUserNodes() {
+            let userId = this.req().params.userId;
+            Logger.info(`in findUserNodes - ${userId}`);
+            NodeModel.find({user: userId, status: 'active'})
+                .populate('user', 'name')
+//                .populate('type', 'name')
+                .exec( (err, result) => {
                     if (err) {
-                        console.log(err);
-                        res.status(5000).json(err);
+                        this.serverError();
+                        Logger.error(err);
                     }
-                    res.json(result);
+                    this.send(result);
                 });
 
         }
 
+        deleteNode() {
 
-        /**
-         * Update a node
-         */
-        update(req, res, next) {
-			console.log(`Node update start`);
-			console.log(`${req.body}`);			
-			console.log(`Node update end`);			
-            var inputNode = req.body;
-            var that = this;
             Node.findByIdAndUpdate(
-                inputNode._id, {
-                    $set: {
-                        name: inputNode.name,
-                        tags: inputNode.tags
-                    }
-                })
-                .then(super.handleEntityNotFound(res))
-                .then(entity => {
-                    Node.findById(entity._id)
-                        .exec(function (err, result) {
-                            if (err) {
-                                console.log(err);
-                                res.status(500).json(err);
-                            }
-                            res.json(result);
-                        });
-                })
-                .catch(err => next(err));
-        }
-
-
-        delete(req, res, next) {
-            var id = req.params.id;
-            Node.findByIdAndUpdate(
-                id, {
+                this.id(), {
                     $set: {
                         status: 'deleted'
                     }
                 })
                 .then(super.handleEntityNotFound(res))
-                .then(entity => res.status(200))
+                .then(entity => res.status(204).json())
                 .catch(err => next(err));
         }
 
     }
 
-
-
-
-
-
-
     module.exports = NodeController;
-
 
 })();

@@ -1,7 +1,8 @@
 {
   "name"    : "titan.email",
   "description" : "Email service",
-  "author"  : "Peter Symoens",
+  "author"  : "Damian Kelly",
   "version" : "1.0.0",
+  "init": "init.d.js",
   "mount" : "/mail"
 }

@@ -1,0 +1,8 @@
+{
+  "name": "titan.mongo",
+  "description": "Connects to the database",
+  "author": "Martin Haynes",
+  "version": "1.0.0",
+  "init": "init.d.js",
+  "mount": "/mongo"
+}

@@ -1,0 +1,8 @@
+{
+  "name": "titan.channels.settings",
+  "description": "Handles all the settings for incoming and out going channels",
+  "author": "Martin Haynes",
+  "version": "1.0.0",
+  "mount": "/channelSettings",
+  "router" : "channelSettings.js"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "titan.s3",
+  "description": "Interacts with AWS S3 filesystem",
+  "author": "Damian Kelly",
+  "version": "1.0.0",
+  "init": "init.d.js",
+  "mount": "/s3",
+  "router" : "router.js"  
+}

@@ -1,0 +1,31 @@
+{
+  "DB" : {
+    "module"  : "mongo",
+    "host"    : "localhost",
+    "db"      : "titan",
+    "seed"    : true
+  },
+  "roles" : {
+      "user" : ["user", "admin"]
+  },
+  "secrets" : {
+      "session" : {
+        "token" : "this.is.not.a.secret",
+        "expires" : "30 days"
+      }
+  },
+  "AWS" : {
+      "region" : "eu-west-1",
+      "s3" : {
+          "bucket" : "titanclient",
+          "rootFolder" : ""
+      },
+      "ses" : {
+          "fromEmailAddress" : "web@creative-assembly.com"
+      }
+  },
+  "CORS" : {
+    "whitelist" : ["http://localhost:3000", "http://localhost:3001"]
+  }
+
+}

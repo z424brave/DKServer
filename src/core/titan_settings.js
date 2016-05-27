@@ -5,10 +5,10 @@
     let os = require("os");
     let _ = require("lodash");
 
-    require("./titan_global");
+	const TITAN_GLOBALS = require("./titan_global");
 
-    let JsonFile = require("../common/json_file");
-    let Logger = require("../common/logger");
+    const JsonFile = require(`${TITAN_GLOBALS.COMMON}/json_file`);
+    const Logger = require(`${TITAN_GLOBALS.COMMON}/logger`);
 
     const DEFAULT_ENV = "dev";
     const EXT = "json";
@@ -18,7 +18,7 @@
 
         constructor(settingsPath) {
             this._wipe();
-            this._settingsPath = settingsPath || process.env.TITAN_SETTINGS || global.TITAN.SETTINGS;
+            this._settingsPath = settingsPath || process.env.TITAN_SETTINGS || TITAN_GLOBALS.SETTINGS;
         }
 
         /**

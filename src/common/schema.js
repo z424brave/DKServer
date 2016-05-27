@@ -5,7 +5,9 @@
     let _ = require("lodash");
     let FileExt = require("./file_ext");
     let Eventify = require("./eventify");
-
+	const TITAN_GLOBALS = require("../core/titan_global");
+	const Logger = require(`${ TITAN_GLOBALS.COMMON }/logger`);
+	
     const ENCODING = "utf8";
     const EVENT_INVALID = "schema.invalid";
 
@@ -181,7 +183,7 @@
             let found = report.found;
             let foundTypes = report.foundTypes;
 
-            //console.log("VALIDATE" , this , "REPORT", report);
+            Logger.info(`VALIDATE REPORT, ${JSON.stringify(report)}`);
 
             let validateFields      = this._validateFields(found);
             let validateRequires    = this._validateRequires(found);

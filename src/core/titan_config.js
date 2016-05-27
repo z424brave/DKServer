@@ -3,11 +3,11 @@
 
     let path = require("path");
 
-    require("./titan_global");
-    let JsonFile = require("../common/json_file");
-
-    const CONFIG_TITAN = "titan.json";
+	const CONFIG_TITAN = "titan.json";
     const TITAN_SCHEMA = "titan_config.json";
+    const TITAN_GLOBALS = require("./titan_global");
+    let JsonFile = require(`${ TITAN_GLOBALS.COMMON }/json_file`);
+    let Logger = require(`${ TITAN_GLOBALS.COMMON }/logger`);
 
     /**
      * A Class for handling Titan Configuration files
@@ -25,7 +25,7 @@
                 throw new Error("Titan Config - Required a configuration path");
             }
 
-            super(null, path.join(global.TITAN.SCHEMA, TITAN_SCHEMA));
+            super(null, path.join(`${ TITAN_GLOBALS.SCHEMA }`, TITAN_SCHEMA));
             this.path(configPath);
         }
 
@@ -36,6 +36,7 @@
          *
          * @returns {string|null} returns the path or if its never been set null
          */
+		 
         path(path) {
             if (path || false ) {
                 this._path = path;
@@ -65,7 +66,7 @@
             this.loadSync();
 
             this.on("schema.invalid" , (err) => {
-               console.log(err);
+               Logger.error(err);
             });
 
             if ( this.invalid() ) {

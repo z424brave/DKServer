@@ -1,0 +1,286 @@
+
+[0m[0m
+[0m  Collection[0m
+[0m    #constructor()[0m
+[2K[0G    [32m  √[0m[90m should set up the basics[0m
+[0m    #isCollection()[0m
+[2K[0G    [32m  √[0m[90m should return true for a collection[0m
+[0m    #data()[0m
+[2K[0G    [32m  √[0m[90m should return an empty object on initalization[0m
+[2K[0G    [32m  √[0m[90m should return the data after it has been set[0m
+[2K[0G    [32m  √[0m[90m should return the data when initialized with Data[0m
+[2K[0G    [32m  √[0m[90m should extend the data with new data[0m
+[0m    #toObject()[0m
+[2K[0G    [32m  √[0m[90m should return the data object from the collection[0m
+[0m    #toString()[0m
+[2K[0G    [32m  √[0m[90m should convert the internal Data object to a Json encoded string[0m
+[2K[0G    [32m  √[0m[90m should implicitly convert the internal Data object to a JSON string[0m
+[0m    #has()[0m
+[2K[0G    [32m  √[0m[90m should return false if the field doesn't exist[0m
+[2K[0G    [32m  √[0m[90m should return true if the field does exist[0m
+[2K[0G    [32m  √[0m[90m should throw an error if no key is set[0m
+[0m    #field()[0m
+[2K[0G    [32m  √[0m[90m should register a new field[0m
+[2K[0G    [32m  √[0m[90m should throw an Error if no name is provided[0m
+[2K[0G    [32m  √[0m[90m should throw an Error if the field already exists[0m
+[0m    #fields()[0m
+[2K[0G    [32m  √[0m[90m should return a list of field names[0m
+[0m    #length()[0m
+[2K[0G    [32m  √[0m[90m should return the length[0m
+[0m    #find()[0m
+[2K[0G    [32m  √[0m[90m should return a value stored at the path[0m
+[2K[0G    [32m  √[0m[90m should return null on no path[0m
+[2K[0G    [32m  √[0m[90m should return false if the path doesn't exist[0m
+[2K[0G    [32m  √[0m[90m should return false if a path part doesn't exist[0m
+[0m    #extend()[0m
+[2K[0G    [32m  √[0m[90m should extend one collection with another[0m
+[2K[0G    [32m  √[0m[90m should replace the value of duplicated entrys with the latest[0m
+[2K[0G    [32m  √[0m[90m should throw an error when extending no collections[0m
+[0m    Getters[0m
+[2K[0G    [32m  √[0m[90m should get data from the collection[0m
+[2K[0G    [32m  √[0m[90m should trigger a get event[0m
+[0m    Setters[0m
+[2K[0G    [32m  √[0m[90m should set data in the collection[0m
+[0m    Private Methods throw Errors[0m
+[2K[0G    [32m  √[0m[90m should throw an error calling register[0m
+[2K[0G    [32m  √[0m[90m should throw an error calling __set[0m
+[2K[0G    [32m  √[0m[90m should throw an error calling _get[0m
+
+[0m  Eventify[0m
+[0m    #constructor()[0m
+[2K[0G    [32m  √[0m[90m should create a queue as _queue[0m
+[2K[0G    [32m  √[0m[90m should create a queue as _once[0m
+[0m    #isEventify()[0m
+[2K[0G    [32m  √[0m[90m should return true[0m
+[0m    #on()[0m
+[2K[0G    [32m  √[0m[90m should add an event to the queue[0m
+[2K[0G    [32m  √[0m[90m should throw an Exception when no handler is passed[0m
+[2K[0G    [32m  √[0m[90m should throw an Exception when no event is passed[0m
+[0m    #once()[0m
+[2K[0G    [32m  √[0m[90m should add an event to the once queue[0m
+[2K[0G    [32m  √[0m[90m should throw an Exception when no handler is passed[0m
+[2K[0G    [32m  √[0m[90m should throw an Exception when no event is passed[0m
+[0m    #all()[0m
+[2K[0G    [32m  √[0m[90m should add a valid all event to the all queue[0m
+[2K[0G    [32m  √[0m[90m should throw an Exception when no handler is passed[0m
+[2K[0G    [32m  √[0m[90m should throw an Exception when no event is passed[0m
+[2K[0G    [32m  √[0m[90m should throw an Exception when a invalid all event is passed[0m
+[0m    #off()[0m
+[2K[0G    [32m  √[0m[90m should remove an event from the queue[0m
+[2K[0G    [32m  √[0m[90m should remove an event from the once queue[0m
+[2K[0G    [32m  √[0m[90m should remove an event from the all queue[0m
+[2K[0G    [32m  √[0m[90m should throw an exception when no event is specified[0m
+[0m    #trigger()[0m
+[2K[0G    [32m  √[0m[90m should trigger all the handlers on the event queue[0m
+[2K[0G    [32m  √[0m[90m should trigger all the handlers on the event once queue[0m
+[2K[0G    [32m  √[0m[90m should trigger all the handlers on the event all queue[0m
+[2K[0G    [32m  √[0m[90m should pass the parameters through to the handler[0m
+[2K[0G    [32m  √[0m[90m should throw an exception when no event name is passed[0m
+[0m    #describe()[0m
+[2K[0G    [32m  √[0m[90m should return an empty describe object on initialization[0m
+[2K[0G    [32m  √[0m[90m should return the populated event queues[0m
+[0m    #bond()[0m
+[2K[0G    [32m  √[0m[90m should throw an exception when you try and bond a non eventify class[0m
+[2K[0G    [32m  √[0m[90m should bond to eventified class together[0m
+
+[0m  FileExt[0m
+[0m    #file_exit()[0m
+[2K[0G    [32m  √[0m[90m should return a fs.stats on success[0m
+[2K[0G    [32m  √[0m[90m should return a mock fs.stats on failure[0m
+[2K[0G    [32m  √[0m[90m should throw an error when no filename is passed[0m
+[0m    #file_exists()[0m
+[2K[0G    [32m  √[0m[90m should return true on success[0m
+[2K[0G    [32m  √[0m[90m should return false on failure[0m
+
+[0m  JsonFile[0m
+[0m    #constructor()[0m
+[2K[0G    [32m  √[0m[90m should set the filename to null if no file name is passed[0m
+[2K[0G    [32m  √[0m[90m should set the filename if a file name is passed[0m
+[2K[0G    [32m  √[0m[90m should allow you to set a valid Schema[0m
+[0m    #filename()[0m
+[2K[0G    [32m  √[0m[90m should set the filename if passed[0m
+[2K[0G    [32m  √[0m[90m should return a previously set filename[0m
+[2K[0G    [32m  √[0m[90m should return the filename after it sets it[0m
+[0m    #exists()[0m
+[2K[0G    [32m  √[0m[90m should return true if the file exists[0m
+[2K[0G    [32m  √[0m[90m should return false if the file doesn't exist[0m
+[0m    #loadSync()[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:55 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\json_file\valid.json[39m
+[2K[0G    [32m  √[0m[90m should load a valid JSON file and return a populated collection[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:55 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\json_file\invalid.json[39m
+[2K[0G    [32m  √[0m[90m should throw an exception on an invalid file[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:55 GMT+0100 (GMT Daylight Time) - json_file / loadSync - null[39m
+[2K[0G    [32m  √[0m[90m should throw an exception on no file name present[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:55 GMT+0100 (GMT Daylight Time) - json_file / loadSync - foobar.json[39m
+[2K[0G    [32m  √[0m[90m should throw an exception on a non existing file[0m
+[0m    #load()[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:55 GMT+0100 (GMT Daylight Time) - json_file / load - C:\Development\titanserver\spec\mocks\json_file\valid.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:55 GMT+0100 (GMT Daylight Time) - json_file / loaded - {"foo":"bar","a":true,"b":["cat","dog","hamster"],"c":null}[39m
+[2K[0G    [32m  √[0m[90m should load a valid JSON file and resolve to a populated collection[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:55 GMT+0100 (GMT Daylight Time) - json_file / load - C:\Development\titanserver\spec\mocks\json_file\invalid.json[39m
+[2K[0G    [32m  √[0m[90m should reject on an invalid file[0m
+[0m    Validation[0m
+[0m      #valid()[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:55 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\json_file\valid_data.json[39m
+[2K[0G      [32m  √[0m[90m should return true when ran against a valid object[0m
+Error reading file [SyntaxError: Unexpected token P]
+In load test that is expected to fail
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\json_file\valid.json[39m
+[2K[0G      [32m  √[0m[90m should return false when ran against an invalid object[0m
+[2K[0G      [32m  √[0m[90m should throw an error when no schema is present[0m
+[0m      #invalid()[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\json_file\valid_data.json[39m
+[2K[0G      [32m  √[0m[90m should return false when ran against a valid object[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\json_file\valid.json[39m
+[2K[0G      [32m  √[0m[90m should return true when ran against an invalid object[0m
+[2K[0G      [32m  √[0m[90m should throw an error when no schema is present[0m
+
+[0m  Schema[0m
+[0m    #constructor()[0m
+[2K[0G    [32m  √[0m[90m should throw an error when now schema is passed[0m
+[2K[0G    [32m  √[0m[90m should initialize an empty class[0m
+[0m    #loadSchema()[0m
+[2K[0G    [32m  √[0m[90m should load a valid json file[0m
+[2K[0G    [32m  √[0m[90m should throw an error if the schema doesn't exist[0m
+[2K[0G    [32m  √[0m[90m shold throw an error if the schema is not a valid json file[0m
+[2K[0G    [32m  √[0m[90m should act as a getter when the schema is already loaded i.e. cached[0m
+[0m    #parseSchema()[0m
+[2K[0G    [32m  √[0m[90m should pass a schema in to an internal processing format[0m
+[0m    #analyse()[0m
+[2K[0G    [32m  √[0m[90m should analyse an object[0m
+[2K[0G    [32m  √[0m[90m should throw an error on non objects[0m
+[0m    #valid()[0m
+[2K[0G    [32m  √[0m[90m should return true for a valid object[0m
+[2K[0G    [32m  √[0m[90m should return false for an invalid object[0m
+[2K[0G    [32m  √[0m[90m should fire an schema.invalid event for an invalid object[0m
+[0m    #invalid()[0m
+[2K[0G    [32m  √[0m[90m should return false for a valid object[0m
+[2K[0G    [32m  √[0m[90m should return true for an invalid object[0m
+[0m    validators[0m
+[0m      #_validateRequires()[0m
+[2K[0G      [32m  √[0m[90m should return true is all the required fields are present[0m
+[2K[0G      [32m  √[0m[90m should return false if one required field is missing[0m
+[2K[0G      [32m  √[0m[90m should return false if no required fields are present[0m
+[0m      #_validateTypes()[0m
+[2K[0G      [32m  √[0m[90m should return true is all the field types are correct[0m
+[2K[0G      [32m  √[0m[90m should return false is any of the field types are incorrect[0m
+[0m      #_validateFields()[0m
+[2K[0G      [32m  √[0m[90m should return true if only schema fields are present[0m
+[2K[0G      [32m  √[0m[90m should return false if other fields outside the schema are present[0m
+
+[0m  TitanConfig[0m
+[0m    #constructor()[0m
+[2K[0G    [32m  √[0m[90m should throw an Error when no path is passed[0m
+[2K[0G    [32m  √[0m[90m should set the path on initialization with a path[0m
+[0m    #path()[0m
+[2K[0G    [32m  √[0m[90m should return the initialization path[0m
+[0m    #configFile()[0m
+[2K[0G    [32m  √[0m[90m should return the full path with the titan file name[0m
+[0m    #loadConfig()[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_config\valid\titan.json[39m
+[2K[0G    [32m  √[0m[90m should load the config[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_config\invalid\titan.json[39m
+[31m[31m[1mTitan[22m[31m dev [[1mERROR[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - {"valid":false,"fields":[],"required":["REQUIRED field version is missing","REQUIRED field mount is missing"],"types":[]}[39m
+[31m[31m[1mTitan[22m[31m dev [[1mERROR[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - {"valid":false,"fields":[],"required":["REQUIRED field version is missing","REQUIRED field mount is missing"],"types":[]}[39m
+[31m[31m[1mTitan[22m[31m dev [[1mERROR[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - {"valid":false,"fields":[],"required":["REQUIRED field version is missing","REQUIRED field mount is missing"],"types":[]}[39m
+[2K[0G    [32m  √[0m[90m should throw an error on loading an invalid config[0m
+[0m    #find()[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_config\valid\titan.json[39m
+[2K[0G    [32m  √[0m[90m should find data based on a string[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_config\valid\titan.json[39m
+[2K[0G    [32m  √[0m[90m should load and find data based on a string[0m
+
+[0m  TitanModules[0m
+[0m    #consturctor()[0m
+[2K[0G    [32m  √[0m[90m should initialize the class when a root is given[0m
+[2K[0G    [32m  √[0m[90m should throw an error if there is no root titan file[0m
+[0m    #application()[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\titan.json[39m
+[2K[0G    [32m  √[0m[90m should load a application config[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\titan.json[39m
+[2K[0G    [32m  √[0m[90m should return a loaded application config[0m
+[0m    #modules()[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\module1\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - Adding Module titan.test.module1[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\module2\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - Adding Module titan.test.module2[39m
+[2K[0G    [32m  √[0m[90m should load all modules[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\module1\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - Adding Module titan.test.module1[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\module2\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - Adding Module titan.test.module2[39m
+[2K[0G    [32m  √[0m[90m should return all the loaded module config[0m
+[0m    #modulePath()[0m
+[2K[0G    [32m  √[0m[90m should load return the module paths[0m
+[0m    #routers()[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\module1\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - Adding Module titan.test.module1[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\module2\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - Adding Module titan.test.module2[39m
+[2K[0G    [32m  √[0m[90m should return an array of router objects[0m
+[0m    #admin()[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\module1\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - Adding Module titan.test.module1[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\module2\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - Adding Module titan.test.module2[39m
+[2K[0G    [32m  √[0m[90m should return an array of admin router objects[0m
+[0m    #api()[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\module1\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - Adding Module titan.test.module1[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\module2\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - Adding Module titan.test.module2[39m
+[ { mount: '/m1',
+    router: 'C:\\Development\\titanserver\\spec\\mocks\\titan_modules\\valid\\module1\\titan_test\\api.js' },
+  { mount: '/m2',
+    router: 'C:\\Development\\titanserver\\spec\\mocks\\titan_modules\\valid\\module2\\titan_test\\api.js' } ]
+[2K[0G    [32m  √[0m[90m should return an array of api router objects[0m
+[0m    #module[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\module1\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - Adding Module titan.test.module1[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\module2\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - Adding Module titan.test.module2[39m
+[2K[0G    [32m  √[0m[90m should return a module by name[0m
+[2K[0G    [32m  √[0m[90m should throw an error when no name is specified[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\module1\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - Adding Module titan.test.module1[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\module2\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - Adding Module titan.test.module2[39m
+[2K[0G    [32m  √[0m[90m ahould return null when no module name is specified[0m
+[0m    #inits()[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\module1\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - Adding Module titan.test.module1[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_modules\valid\module2\titan.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - Adding Module titan.test.module2[39m
+[2K[0G    [32m  √[0m[90m should return an array of all the inits[0m
+
+[0m  TitanSettings[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_settings\basic\default.json[39m
+[33m[31m[1mTitan[22m[33m dev [[1mWARN[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - C:\Development\titanserver\spec\mocks\titan_settings\basic\dev.json was not found[39m
+[33m[31m[1mTitan[22m[33m dev [[1mWARN[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - C:\Development\titanserver\spec\mocks\titan_settings\basic\dev.ext.json was not found[39m
+[33m[31m[1mTitan[22m[33m dev [[1mWARN[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - C:\Development\titanserver\spec\mocks\titan_settings\basic\dev.ZOHERA_SHEIK.json was not found[39m
+[33m[31m[1mTitan[22m[33m dev [[1mWARN[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - C:\Development\titanserver\spec\mocks\titan_settings\basic\local.json was not found[39m
+[2K[0G  [32m  √[0m[90m should load a basic default configuation file[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_settings\extend\default.json[39m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_settings\extend\dev.json[39m
+[33m[31m[1mTitan[22m[33m dev [[1mWARN[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - C:\Development\titanserver\spec\mocks\titan_settings\extend\dev.ext.json was not found[39m
+[33m[31m[1mTitan[22m[33m dev [[1mWARN[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - C:\Development\titanserver\spec\mocks\titan_settings\extend\dev.ZOHERA_SHEIK.json was not found[39m
+[33m[31m[1mTitan[22m[33m dev [[1mWARN[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - C:\Development\titanserver\spec\mocks\titan_settings\extend\local.json was not found[39m
+[2K[0G  [32m  √[0m[90m should load and extend data[0m
+[32m[31m[1mTitan[22m[32m dev [[1mINFO[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - json_file / loadSync - C:\Development\titanserver\spec\mocks\titan_settings\basic\default.json[39m
+[33m[31m[1mTitan[22m[33m dev [[1mWARN[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - C:\Development\titanserver\spec\mocks\titan_settings\basic\dev.json was not found[39m
+[33m[31m[1mTitan[22m[33m dev [[1mWARN[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - C:\Development\titanserver\spec\mocks\titan_settings\basic\dev.ext.json was not found[39m
+[33m[31m[1mTitan[22m[33m dev [[1mWARN[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - C:\Development\titanserver\spec\mocks\titan_settings\basic\dev.ZOHERA_SHEIK.json was not found[39m
+[33m[31m[1mTitan[22m[33m dev [[1mWARN[22m] : Fri Apr 29 2016 16:43:56 GMT+0100 (GMT Daylight Time) - C:\Development\titanserver\spec\mocks\titan_settings\basic\local.json was not found[39m
+[2K[0G  [32m  √[0m[90m should allow you to set the config path with an ENV var[0m
+
+
+[92m [0m[32m 127 passing[0m[90m (274ms)[0m
+

@@ -3,7 +3,11 @@
 
     let Lexicon = require('../lexicon/lexicon_model');
     let _ = require('lodash');
-    let BaseController = require(`${ global.TITAN.CORE}/controllers/base_controller`);
+
+    const TITAN_GLOBALS = require("../../core/titan_global");
+    
+    const BaseController = require(`${ TITAN_GLOBALS.CORE}/controllers/base_controller`);
+    const Logger = require(`${TITAN_GLOBALS.COMMON}/logger`);
 
     class TagController extends BaseController {
 
@@ -23,7 +27,7 @@
                     lexicon.tags.push(tag);
                     lexicon.save(function (err) {
                         if (err) {
-                            console.log('error adding tag', err);
+                            Logger.error('error adding tag', err);
                             next(err);
                         }
                         else res.status(200).json('ok');
@@ -50,7 +54,7 @@
                     lexicon.tags.id(tag._id).name = tag.name;
                     lexicon.save(function (err) {
                         if (err) {
-                            console.log('error updating tag', err);
+                            Logger.error('error updating tag', err);
                             next(err);
                         }
                         else res.status(200).json('ok');
@@ -68,7 +72,7 @@
                     lexicon.tags.id(tagId).remove();
                     lexicon.save(function (err) {
                         if (err) {
-                            console.log('error deleting tag', err);
+                            Logger.error('error deleting tag', err);
                             next(err);
                         }
                         else res.status(200).json('ok');
@@ -79,4 +83,5 @@
     }
 
     module.exports = TagController;
+
 })();

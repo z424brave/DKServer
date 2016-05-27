@@ -4,6 +4,8 @@
     let _ = require('lodash');
     let base;
 
+    const Logger = require("../../common/logger");
+
     class BaseController {
 
 
@@ -18,12 +20,12 @@
                 if(err.name === 'ValidationError'){
                     statusCode = 422;
                     message = '';
-                    console.log(err.stack);
+                    Logger.error(err.stack);
                 }
                 else {
                     message = 'Server error';
                     statusCode = 500;
-                    console.error(err);
+                    Logger.error(err);
                 }
                 res.status(statusCode).send(message);
             };
