@@ -7,6 +7,7 @@ let Tag = require('../src/lexicon/tag/tag_model');
 let Language = require('../src/language/language_model');
 let Role = require('../src/role/role_model');
 let Channel = require('../src/channels/model/channels');
+let Field = require('../src/channels/model/field_schema');
 
 const Logger = require('../src/common/logger');
 
@@ -18,6 +19,35 @@ let adminRole = "";
 populate_languages();
 populate_lexicons();
 populate_roles();
+populate_settings();
+
+function populate_settings() {
+    Logger.info('starting to populate settings');
+
+    Field.find({}).removeAsync()
+        .then(() => {
+            Logger.info('populating fields - after removeAsync');
+            return Field.createAsync({
+                name: 'Facebook Api Key',
+                type: 'string'
+            }, {
+                name: 'Facebook Secret',
+                type: 'string'
+            }, {
+                name: 'Twitter Secret Key',
+                type: 'string'
+            }, {
+                name: 'Twitter Api Key',
+                type: 'string'
+            }, {
+                name: 'Twitter Username',
+                type: 'string'
+            })
+                .then(() => {
+                    Logger.info('finished populating fields');
+                });
+        });
+}
 
 function populate_users() {
     Logger.info('starting to populate users');
