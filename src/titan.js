@@ -31,9 +31,10 @@
 
     //TODO - externalise whitelist to config
 
-    const whitelist = ['http://localhost:3000', 'http://localhost:3001'];
+    const whitelist = Config.CORS.whitelist;
+
     var corsOptions = {
-        origin: function(origin, callback){
+        origin: (origin, callback) => {
             let originIsWhitelisted = whitelist.indexOf(origin) !== -1;
             callback(null, originIsWhitelisted);
         },
@@ -62,6 +63,7 @@
         app() {
             if (null === this._app) {
                 this._app = express();
+                Logger.info(`CORS Enabled - Whitelist is ${whitelist}`);
                 this._app.use(cors(corsOptions));
                 this._app.use(bodyParser.urlencoded({
                     extended: true

@@ -5,8 +5,10 @@
 
     let TitanApiController = require("./titan_api_controller");
 
-    let Logger = require("../../common/logger");
+//    let Logger = require("../../common/logger");
+    let Logger = require(`${TITAN_GLOBALS.COMMON}/logger`);   
     let dataModel = null;
+    
     class TitanModelController extends TitanApiController {
 
         /**
@@ -105,13 +107,13 @@
          * Retrieves all the instances of the model satisfying the search criteria passed in the request
          * and sends the JSON data back as a response.
          */
+
         list() {
             let queryObject = this.convertSearch(this.req().query);
             Logger.info(`In list ${this.getModel().modelName}`);
             Logger.info(`Query Parameters : ${JSON.stringify(this.req().query)}`);
-            Logger.info(`Query Object is : ${JSON.stringify(queryObject)}`);
-//            this.getModel().find(queryObject)
-            this.getModel().find(this.req().query)
+            Logger.info(`Query Object     : ${JSON.stringify(queryObject)}`);
+            this.getModel().find(queryObject)
                 .then((data) => {
                     this.send(data);
                 }).catch((err) => {

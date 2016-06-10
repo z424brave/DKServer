@@ -3,12 +3,15 @@
 
     const path = require("path");
 
-    const ModelController = require("../../core/controllers/titan_model_controller");
-    const Logger = require("../../common/Logger");
+    let NODE_GLOBALS = require("../node_global");
+    let TitanModelController = require(`${NODE_GLOBALS.CORE}`.concat("/controllers/titan_model_controller"));
+    let Logger  = require(`${NODE_GLOBALS.COMMON}`.concat("/logger"));
+    let Logger2 = require(`${NODE_GLOBALS.COMMON}/logger`);
 
+    let TITAN_GLOBALS = require("../../core/titan_global");
     let NodeModel = require('../node_model');
 
-    class NodeController extends ModelController {
+    class NodeController extends TitanModelController {
 
         constructor(req, res) {
             
@@ -27,8 +30,11 @@
             });
 
             this.setModel(NodeModel);
+            Logger.info(`TITAN - ${JSON.stringify(TITAN_GLOBALS)}`);
+            Logger.info(`NODE  - ${JSON.stringify(NODE_GLOBALS)}`);
 
         }
+
         storeNode() {
 
             Logger.info(`store node - ${JSON.stringify(this.req().file)}`);
@@ -54,26 +60,35 @@
             node.status = 'active';*/
 
             this.setModel(new NodeModel(this.body()));
-			this.create();			
+			super.create();
 
         }
 
+        /**
+         * Override the list() method to add the populate clause for node retrieval
+         */
         list() {
+            Logger.info(`nc : list() - calling model controller list()`);
+            super.list();
+        }
+
+/*        list() {
             let queryObject = this.convertSearch(this.req().query);
             Logger.info(`nc : In list ${this.getModel().modelName}`);
             Logger.info(`nc : Query Parameters : ${JSON.stringify(this.req().query)}`);
-            Logger.info(`nc : Query Object is : ${JSON.stringify(queryObject)}`);
-//            this.getModel().find(queryObject)
-            this.getModel().find(this.req().query)
-                .populate('user', 'name')
+            Logger.info(`nc : Query Object     : ${JSON.stringify(queryObject)}`);
+            this.getModel().find(queryObject)
+//                .populate('user', 'name')
+                .populate('fred')
                 .then((data) => {
+                    Logger.info(`nc : Node Data : ${JSON.stringify(data)}`);
                     this.send(data);
                 }).catch((err) => {
                     this.serverError();
                     Logger.error(err);
                 }
             );
-        }
+        }*/
 
         findUserNodes() {
             let userId = this.req().params.userId;

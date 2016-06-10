@@ -1,8 +1,34 @@
 {
-  "mongo" : {
-    "uri": "mongodb://ec2-52-50-129-25.eu-west-1.compute.amazonaws.com/titan-db"
+  "DB" : {
+    "module"  : "mongo",
+    "host"    : "ec2-52-50-129-25.eu-west-1.compute.amazonaws.com",
+    "db"      : "titan",
+    "seed"    : true
   },
-
-  "seedDB" : true
+  "roles" : {
+      "user" : ["user", "admin"]
+  },
+  "secrets" : {
+      "session" : {
+        "token" : "this.is.not.a.secret",
+        "expires" : "30 days"
+      }
+  },
+  "AWS" : {
+      "region" : "eu-west-1",
+      "s3" : {
+          "bucket" : "titanclient",
+          "rootFolder" : ""
+      },
+      "ses" : {
+          "fromEmailAddress" : "web@creative-assembly.com"
+      }
+  },
+  "CORS" : {
+    "whitelist" : [
+      "https://s3-eu-west-1.amazonaws.com",
+      "https://d2mgfhkgxmsoab.cloudfront.net"
+    ]
+  }
 
 }

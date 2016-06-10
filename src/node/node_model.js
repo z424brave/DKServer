@@ -20,6 +20,7 @@
             user: {type:mongoose.Schema.Types.ObjectId, ref:'User'},
             media: [mediaSchema],
             translated: Boolean,
+            sentForTranslation: Date,
             versionNo: Number,
             versionMessage: String
         },

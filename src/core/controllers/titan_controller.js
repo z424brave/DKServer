@@ -1,7 +1,6 @@
 (function(){
     "use strict";
 
-    let path = require("path");
     let _ = require("lodash");
 
     let TITAN_GLOBALS = require("../titan_global");
@@ -32,6 +31,7 @@
             this._req = req;
             this._res = res;
             this._module = null;
+
         }
 
         req() {

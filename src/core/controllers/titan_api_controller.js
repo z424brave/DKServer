@@ -2,6 +2,7 @@
     "use strict";
 
     let _ = require("lodash");
+
     let TitanController = require("./titan_controller");
     let Logger = require("../../common/logger");
 

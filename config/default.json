@@ -17,7 +17,7 @@
   "AWS" : {
       "region" : "eu-west-1",
       "s3" : {
-          "bucket" : "titanclient",
+          "bucket" : "titanclientdev",
           "rootFolder" : ""
       },
       "ses" : {
@@ -25,7 +25,7 @@
       }
   },
   "CORS" : {
-    "whitelist" : ["http://localhost:3000", "http://localhost:3001"]
+    "whitelist" : ["http://localhost:3000"]
   }
 
 }

@@ -12,12 +12,13 @@
         localAuthenticate(User, email, password, done) {
 			Logger.info(`localAuthenticate : ${email}`);
             User.findOne({
-                    email: email.toLowerCase()
+                    email: email.toLowerCase(),
+                    status: 'active'
                 })
                 .then(user => {
                     if (! user) {
                         return done(null, false, {
-                            message: 'This email is not registered.'
+                            message: 'This email is not registered or has been disabled.'
                         });
                     }
                     user.authenticate(password, (authError, authenticated) => {
