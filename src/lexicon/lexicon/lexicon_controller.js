@@ -3,16 +3,15 @@
 
     const path = require("path");
 
-//    const TITAN_GLOBALS = require("../../core/titan_global");
+    const TITAN_GLOBALS = require("../../core/titan_global");
 
-//    const ModelController = require(`${TITAN_GLOBALS.CORE}/controllers/titan_model_controller`);
-    const ModelController = require("../../core/controllers/titan_model_controller");
+    const TitanModelController = require(`${TITAN_GLOBALS.CORE}`.concat("/controllers/titan_model_controller"));
 
-    const Logger = require("../../common/logger");
+    const Logger = require(`${TITAN_GLOBALS.COMMON}`.concat("/logger"));
 
     let LexiconModel = require('./lexicon_model');
 
-    class LexiconController extends ModelController {
+    class LexiconController extends TitanModelController {
 
         constructor(req, res) {
             super(req, res);
@@ -36,8 +35,6 @@
         createLexicon() {
             Logger.info(`In createLexicon`);
             this.setModel(new LexiconModel(this.body()));
-            let hasStatus = this.getModel().schema.paths.status ? this.getModel().schema.paths.status.path : "No status";
-            Logger.info(`Lexicon has status : ${JSON.stringify(hasStatus)}`);
             this.create();
         }
 

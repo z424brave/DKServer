@@ -8,7 +8,7 @@
     let Helpers = require("../helpers");
     let JsonFile = require("../../src/common/json_file");
 
-    const MOCK_FOLER = "spec/mocks/json_file/";
+    const MOCK_FOLDER = "spec/mocks/json_file/";
     const MOCK_VALID_JSON = "valid.json";
     const MOCK_INVALID_JSON = "invalid.json";
     const MOCK_VALID_SCHEMA = "valid_schema.json";
@@ -16,7 +16,7 @@
     const ENCODING = "utf8";
 
     let loadMockJson = () => {
-        return JSON.parse(fs.readFileSync(path.join(process.cwd() , MOCK_FOLER , MOCK_VALID_JSON) , ENCODING));
+        return JSON.parse(fs.readFileSync(path.join(process.cwd() , MOCK_FOLDER , MOCK_VALID_JSON) , ENCODING));
     };
 
     describe('JsonFile' , () => {
@@ -35,7 +35,7 @@
             });
 
             it("should allow you to set a valid Schema" , () => {
-                let schema = path.join(process.cwd(), MOCK_FOLER, MOCK_VALID_SCHEMA);
+                let schema = path.join(process.cwd(), MOCK_FOLDER, MOCK_VALID_SCHEMA);
                 let subject = new JsonFile(null, schema);
                 expect(subject._schema).to.not.equal(null);
             });
@@ -71,14 +71,14 @@
         describe("#exists()" , () => {
 
             it("should return true if the file exists" , () => {
-                let validPath = path.join(process.cwd() , MOCK_FOLER , MOCK_VALID_JSON);
+                let validPath = path.join(process.cwd() , MOCK_FOLDER , MOCK_VALID_JSON);
                 let subject = new JsonFile(validPath);
 
                 expect(subject.exists()).to.be.true;
             });
 
             it("should return false if the file doesn't exist" , () => {
-                let invalidPath = path.join(process.cwd(), MOCK_FOLER , "foobar.json");
+                let invalidPath = path.join(process.cwd(), MOCK_FOLDER , "foobar.json");
                 let subject = new JsonFile(invalidPath);
 
                 expect(subject.exists()).to.be.false;
@@ -90,7 +90,7 @@
         describe("#loadSync()" , () => {
 
             it("should load a valid JSON file and return a populated collection" , () => {
-                let validPath = path.join(process.cwd(), MOCK_FOLER , MOCK_VALID_JSON);
+                let validPath = path.join(process.cwd(), MOCK_FOLDER , MOCK_VALID_JSON);
                 let mockdata = loadMockJson();
                 let subject = new JsonFile(validPath);
                 let res = subject.loadSync();
@@ -102,7 +102,7 @@
             });
 
             it("should throw an exception on an invalid file" , () => {
-                let invalidPath = path.join(process.cwd(), MOCK_FOLER, MOCK_INVALID_JSON);
+                let invalidPath = path.join(process.cwd(), MOCK_FOLDER, MOCK_INVALID_JSON);
                 let subject = new JsonFile(invalidPath);
 
                 let fn = () => {
@@ -141,8 +141,8 @@
 
         describe("#load()" , () => {
 
-            it("should load a valid JSON file and resolve to a propulated collection" , (done) => {
-                let validPath = path.join(process.cwd(), MOCK_FOLER, MOCK_VALID_JSON);
+            it("should load a valid JSON file and resolve to a populated collection" , (done) => {
+                let validPath = path.join(process.cwd(), MOCK_FOLDER, MOCK_VALID_JSON);
                 let mockdata = loadMockJson();
                 let subject = new JsonFile(validPath);
 
@@ -155,13 +155,13 @@
 
             });
 
-            it("should reject on an invalid file" , (done) => {
-                let invalidPath = path.join(process.cwd(), MOCK_FOLER, MOCK_INVALID_JSON);
+            it("should reject on an invalid file" , () => {
+                let invalidPath = path.join(process.cwd(), MOCK_FOLDER, MOCK_INVALID_JSON);
                 let subject = new JsonFile(invalidPath);
 
                 subject.load().catch((err) => {
+                    console.log("In load test that is expected to fail");
                     expect(err).to.be.equal(`Can not read ${ invalidPath }, not valid JSON`);
-                    done();
                 });
             });
 
@@ -172,16 +172,16 @@
             describe("#valid()" , () => {
 
                 it("should return true when ran against a valid object" , () => {
-                    let schema = path.join(process.cwd(), MOCK_FOLER, MOCK_VALID_SCHEMA);
-                    let data = path.join(process.cwd() , MOCK_FOLER, MOCK_VALID_DATA);
+                    let schema = path.join(process.cwd(), MOCK_FOLDER, MOCK_VALID_SCHEMA);
+                    let data = path.join(process.cwd() , MOCK_FOLDER, MOCK_VALID_DATA);
                     let subject = new JsonFile(data,schema);
 
                     expect(subject.valid()).to.be.true;
                 });
 
                 it("should return false when ran against an invalid object" , () => {
-                    let schema = path.join(process.cwd(), MOCK_FOLER, MOCK_VALID_SCHEMA);
-                    let data = path.join(process.cwd(), MOCK_FOLER, MOCK_VALID_JSON);
+                    let schema = path.join(process.cwd(), MOCK_FOLDER, MOCK_VALID_SCHEMA);
+                    let data = path.join(process.cwd(), MOCK_FOLDER, MOCK_VALID_JSON);
                     let subject = new JsonFile(data,schema);
 
                     expect(subject.valid()).to.be.false;
@@ -189,7 +189,7 @@
 
                 it("should throw an error when no schema is present" , () => {
                     let fn = () => {
-                        let data = path.join(process.cwd(), MOCK_FOLER, MOCK_VALID_JSON);
+                        let data = path.join(process.cwd(), MOCK_FOLDER, MOCK_VALID_JSON);
                         let subject = new JsonFile(data);
                         subject.valid();
                     };
@@ -202,16 +202,16 @@
             describe("#invalid()" , () => {
 
                 it("should return false when ran against a valid object" , () => {
-                    let schema = path.join(process.cwd(), MOCK_FOLER, MOCK_VALID_SCHEMA);
-                    let data = path.join(process.cwd() , MOCK_FOLER, MOCK_VALID_DATA);
+                    let schema = path.join(process.cwd(), MOCK_FOLDER, MOCK_VALID_SCHEMA);
+                    let data = path.join(process.cwd() , MOCK_FOLDER, MOCK_VALID_DATA);
                     let subject = new JsonFile(data,schema);
 
                     expect(subject.invalid()).to.be.false;
                 });
 
                 it("should return true when ran against an invalid object" , () => {
-                    let schema = path.join(process.cwd(), MOCK_FOLER, MOCK_VALID_SCHEMA);
-                    let data = path.join(process.cwd(), MOCK_FOLER, MOCK_VALID_JSON);
+                    let schema = path.join(process.cwd(), MOCK_FOLDER, MOCK_VALID_SCHEMA);
+                    let data = path.join(process.cwd(), MOCK_FOLDER, MOCK_VALID_JSON);
                     let subject = new JsonFile(data,schema);
 
                     expect(subject.invalid()).to.be.true;
@@ -219,7 +219,7 @@
 
                 it("should throw an error when no schema is present" , () => {
                     let fn = () => {
-                        let data = path.join(process.cwd(), MOCK_FOLER, MOCK_VALID_JSON);
+                        let data = path.join(process.cwd(), MOCK_FOLDER, MOCK_VALID_JSON);
                         let subject = new JsonFile(data);
                         subject.invalid();
                     };

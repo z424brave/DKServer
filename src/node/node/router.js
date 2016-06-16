@@ -14,7 +14,7 @@
         }
     });
     // TODO : refactor multer
-    let upLoadFile = multer({ storage: storage });
+    let upLoadFile = multer({ storage: storage }).single('file') ;
     let router = new express();
 
     router.get('/', (req,res) => (new Controller(req,res)).index());
@@ -23,9 +23,10 @@
     router.get('/:id', authService.hasRole('user'), (req,res) => (new Controller(req,res)).get());
     router.get('/user/:userId', authService.hasRole('user'), (req, res) => (new Controller(req,res)).findUserNodes());
     router.post('/', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).createNode());
-    router.post('/api/', authService.hasRole('user'), upLoadFile.single('file'), (req,res) => (new Controller(req,res)).storeNode());
+    router.post('/api/', authService.hasRole('user'), upLoadFile, (req,res) => (new Controller(req,res)).storeNode());
+    router.delete('/:id', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).delete());
     router.put('/:id', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).update());
-    router.delete('/:id', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).deleteInstance());
+
     module.exports = router;
 
 })();

@@ -102,18 +102,29 @@
             return searchQuery;
 
         }
+        /**
+         * Retrieves all the instances of the model satisfying the search criteria passed in the request
+         * and sends the JSON data back as a response.
+         */
+        list() {
+            let populateObject = {};
+            populateObject.path = '';
+            Logger.info(`In list             : ${this.getModel().modelName}`);
+            this.listWithPopulate(populateObject);
+        }
 
         /**
          * Retrieves all the instances of the model satisfying the search criteria passed in the request
          * and sends the JSON data back as a response.
          */
-
-        list() {
+        listWithPopulate(populateObject) {
             let queryObject = this.convertSearch(this.req().query);
-            Logger.info(`In list ${this.getModel().modelName}`);
-            Logger.info(`Query Parameters : ${JSON.stringify(this.req().query)}`);
-            Logger.info(`Query Object     : ${JSON.stringify(queryObject)}`);
+            Logger.info(`In listWithPopulate : ${this.getModel().modelName}`);
+            Logger.info(`Query Parameters    : ${JSON.stringify(this.req().query)}`);
+            Logger.info(`Query Object        : ${JSON.stringify(queryObject)}`);
+            Logger.info(`Populate Object     : ${JSON.stringify(populateObject)}`);
             this.getModel().find(queryObject)
+                .populate(populateObject)
                 .then((data) => {
                     this.send(data);
                 }).catch((err) => {
@@ -142,10 +153,34 @@
         /**
          * Updates a specific instance identified via the _id passed in the request and using the data passed
          * in the request and sends the result back as JSON data in the response.
+         *
+         * NB parameter {new: true} tells Mongoose to return the updated value - the default is to return the
+         * value prior to the update.
          */
         update() {
             Logger.info(`In update ${this.getModel().modelName} for ${this.id()}`);
-            this.getModel().findOneAndUpdate({"_id": this.body()._id}, this.body())
+            this.getModel().findOneAndUpdate({"_id": this.body()._id}, this.body(), {new: true})
+                .then((data) => {
+                    this.send(data);
+                })
+                .catch((err) => {
+                    this.notFound();
+                    Logger.error(err);
+                });
+        }
+
+        /**
+         * Logically deletes a specific instance identified via the _id passed in the request and sends the result back
+         * as JSON data in the response.
+         */
+        delete() {
+            Logger.info(`In delete ${this.getModel().modelName} for ${this.id()}`);
+            this.getModel().findByIdAndUpdate(
+                this.id(), {
+                    $set: {
+                        status: 'deleted'
+                    }
+                }, {new: true})
                 .then((data) => {
                     this.send(data);
                 })
@@ -159,8 +194,8 @@
          * Deletes a specific instance identified via the _id passed in the request and sends the result back
          * as JSON data in the response.
          */
-        deleteInstance() {
-            Logger.info(`In delete ${this.getModel().modelName} for ${this.id()}`);
+        deleteEntity() {
+            Logger.info(`In deleteEntity ${this.getModel().modelName} for ${this.id()}`);
             this.getModel().findOneAndRemove({"_id": this.id()})
                 .then((data) => {
                     this.send(data);

@@ -323,7 +323,7 @@
 
                 });
 
-                it("should return true is any of the field types are incorrect" , () => {
+                it("should return false is any of the field types are incorrect" , () => {
                     let mock_valid = path.join(MOCK_PATH, VALID_SCHEMA);
                     let subject = new Schema(mock_valid);
                     let mock_found_types = {

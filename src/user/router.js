@@ -12,7 +12,7 @@
     router.get('/:id', authService.hasRole('user'), (req,res) => (new Controller(req,res)).get());
     router.post('/', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).createUser());
     router.put('/:id', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).update());
-    router.delete('/:id', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).deleteInstance());
+    router.delete('/:id', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).delete());
 
     module.exports = router;
 

@@ -2,7 +2,7 @@
 (function () {
     'use strict';
     const path = require("path");
-
+    let fs = require('fs');
     const TITAN_GLOBALS = require(`../core/titan_global`);
     const ApiController = require(`${ TITAN_GLOBALS.CORE}/controllers/titan_api_controller`);
     const Logger = require(`${ TITAN_GLOBALS.COMMON}/logger`);
@@ -68,11 +68,24 @@
 
         update() {
 
+            let body = '';
+
             let requestDirectory = this.req().query.dirName ? this.req().query.dirName + "/" : "";
-            Logger.info(`In update in S3Controller - ${requestDirectory}`);
+            let requestFile = this.req().query.fileName ? this.req().query.fileName : "";
+            if (requestDirectory) {
+                Logger.info(`In update in S3Controller for directory - ${requestDirectory}`);
+            }
+            if (requestFile) {
+                Logger.info(`In update in S3Controller for file - ${requestFile}`);
+                let uploadedFileName=requestFile.substr(requestFile.lastIndexOf("/"));
+                Logger.info(`In update in S3Controller for file - ${uploadedFileName}`);
+                body = fs.createReadStream('uploads/'.concat(uploadedFileName));
+            }
+            let keyName = requestFile ? requestFile : requestDirectory;
+
 //            let params = S3Controller._setS3Params(requestDirectory);
 
-            s3Client.putObject({Key: requestDirectory, Body: ''}, (err, data) => {
+            s3Client.putObject({Key: keyName, Body: body}, (err, data) => {
                 if (err) {
                     console.log('error : ' + JSON.stringify(err));
                     this.send(err);

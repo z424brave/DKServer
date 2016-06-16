@@ -7,7 +7,7 @@
     let Schema = require('mongoose').Schema;
 
     const TITAN_GLOBALS = require('../core/titan_global');
-    const Logger = require(`${TITAN_GLOBALS.COMMON}/logger`);
+    const Logger = require(`${TITAN_GLOBALS.COMMON}`.concat('/logger'));
 
     let userSchema = new Schema(
         {

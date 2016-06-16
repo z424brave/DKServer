@@ -3,12 +3,10 @@
 
     const path = require("path");
 
-    let NODE_GLOBALS = require("../node_global");
-    let TitanModelController = require(`${NODE_GLOBALS.CORE}`.concat("/controllers/titan_model_controller"));
-    let Logger  = require(`${NODE_GLOBALS.COMMON}`.concat("/logger"));
-    let Logger2 = require(`${NODE_GLOBALS.COMMON}/logger`);
-
     let TITAN_GLOBALS = require("../../core/titan_global");
+    let TitanModelController = require(`${TITAN_GLOBALS.CORE}`.concat("/controllers/titan_model_controller"));
+    let Logger  = require(`${TITAN_GLOBALS.COMMON}`.concat("/logger"));
+
     let NodeModel = require('../node_model');
 
     class NodeController extends TitanModelController {
@@ -30,14 +28,13 @@
             });
 
             this.setModel(NodeModel);
-            Logger.info(`TITAN - ${JSON.stringify(TITAN_GLOBALS)}`);
-            Logger.info(`NODE  - ${JSON.stringify(NODE_GLOBALS)}`);
 
         }
 
         storeNode() {
 
             Logger.info(`store node - ${JSON.stringify(this.req().file)}`);
+            
             let uploadResponse = {};
             uploadResponse.status = 'ok';
             uploadResponse.filename = this.req().file.originalname;
@@ -49,16 +46,6 @@
         createNode() {
 
             Logger.info(`create node - ${JSON.stringify(this.body())}`);
-/*            let node = this.body();
-            let tagIds = [];
-
-            for(var tag of node.tags){
-                tagIds.push(tag._id);
-            }
-
-            node.tags = tagIds;
-            node.status = 'active';*/
-
             this.setModel(new NodeModel(this.body()));
 			super.create();
 
@@ -68,34 +55,18 @@
          * Override the list() method to add the populate clause for node retrieval
          */
         list() {
-            Logger.info(`nc : list() - calling model controller list()`);
-            super.list();
+            Logger.info(`nc : list() - calling model controller listWithPopulate()`);
+            let populateObject = {};
+            populateObject.path = 'user';
+            populateObject.select = 'name';
+            super.listWithPopulate(populateObject);
         }
-
-/*        list() {
-            let queryObject = this.convertSearch(this.req().query);
-            Logger.info(`nc : In list ${this.getModel().modelName}`);
-            Logger.info(`nc : Query Parameters : ${JSON.stringify(this.req().query)}`);
-            Logger.info(`nc : Query Object     : ${JSON.stringify(queryObject)}`);
-            this.getModel().find(queryObject)
-//                .populate('user', 'name')
-                .populate('fred')
-                .then((data) => {
-                    Logger.info(`nc : Node Data : ${JSON.stringify(data)}`);
-                    this.send(data);
-                }).catch((err) => {
-                    this.serverError();
-                    Logger.error(err);
-                }
-            );
-        }*/
 
         findUserNodes() {
             let userId = this.req().params.userId;
             Logger.info(`in findUserNodes - ${userId}`);
             NodeModel.find({user: userId, status: 'active'})
                 .populate('user', 'name')
-//                .populate('type', 'name')
                 .exec( (err, result) => {
                     if (err) {
                         this.serverError();
@@ -104,19 +75,6 @@
                     this.send(result);
                 });
 
-        }
-
-        deleteNode() {
-
-            Node.findByIdAndUpdate(
-                this.id(), {
-                    $set: {
-                        status: 'deleted'
-                    }
-                })
-                .then(super.handleEntityNotFound(res))
-                .then(entity => res.status(204).json())
-                .catch(err => next(err));
         }
 
     }

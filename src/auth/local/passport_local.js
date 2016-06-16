@@ -5,20 +5,24 @@
     let LocalStrategy = require('passport-local');
 
     let TITAN_GLOBALS = require("../../core/titan_global");
-    let Logger = require(`${TITAN_GLOBALS.COMMON}/logger`);
+    let Logger = require(`${TITAN_GLOBALS.COMMON}`.concat("/logger"));
 
     class PassportLocal {
 
         localAuthenticate(User, email, password, done) {
 			Logger.info(`localAuthenticate : ${email}`);
             User.findOne({
-                    email: email.toLowerCase(),
-                    status: 'active'
+                    email: email.toLowerCase()
                 })
                 .then(user => {
-                    if (! user) {
+                    if (!user) {
                         return done(null, false, {
-                            message: 'This email is not registered or has been disabled.'
+                            message: 'This email is not registered.'
+                        });
+                    }
+                    if (user.status !== 'active') {
+                        return done(null, false, {
+                            message: 'This email has been disabled.'
                         });
                     }
                     user.authenticate(password, (authError, authenticated) => {
