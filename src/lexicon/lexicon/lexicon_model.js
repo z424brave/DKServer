@@ -9,7 +9,8 @@
     let lexiconSchema = new Schema(
         {
             name: String,
-            tags: [Tag.schema],
+            description: String,
+            tags: [{type:mongoose.Schema.Types.ObjectId, ref:'Tag'}],
             status: {type: String, default: 'active'}
         },
         {

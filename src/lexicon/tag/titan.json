@@ -1,8 +1,8 @@
 {
   "name" : "titan.tag",
   "description" : "Tags management module",
-  "author" : "Peter Symoens",
+  "author" : "Damian Kelly",
   "version" : "1.0.0",
-  "mount" : "/lexicons",
+  "mount" : "/tags",
   "router" : "router.js"
 }

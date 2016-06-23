@@ -1,85 +1,42 @@
 (function () {
     'use strict';
 
-    let Lexicon = require('../lexicon/lexicon_model');
-    let _ = require('lodash');
+    const path = require("path");
+    
+    let TagModel = require('../tag/tag_model');
 
     const TITAN_GLOBALS = require("../../core/titan_global");
     
-    const BaseController = require(`${ TITAN_GLOBALS.CORE}/controllers/base_controller`);
-    const Logger = require(`${TITAN_GLOBALS.COMMON}/logger`);
+    const TitanModelController = require(`${ TITAN_GLOBALS.CORE}`.concat('/controllers/titan_model_controller'));
+    const Logger = require(`${TITAN_GLOBALS.COMMON}`.concat('/logger'));
 
-    class TagController extends BaseController {
+    class TagController extends TitanModelController {
 
-        constructor() {
-            super();
-        }
+        constructor(req, res) {
+            super(req, res);
 
-        get(req, res, next) {
-        }
+            this.MODULE_ROOT = path.join(__dirname);
+            this.MODULE_VIEWS = "views";
+            this.CONTROLLER_ALLOWED_TYPES = ["json"];
 
-        save(req, res, next) {
-            var lexiconId = req.params.lexiconId;
-            var tag = req.body;
-            Lexicon.findById(lexiconId)
-                .then(super.handleEntityNotFound(res))
-                .then(lexicon => {
-                    lexicon.tags.push(tag);
-                    lexicon.save(function (err) {
-                        if (err) {
-                            Logger.error('error adding tag', err);
-                            next(err);
-                        }
-                        else res.status(200).json('ok');
-                    });
-                })
-                .catch(err => next(err));
+            this.setReadme({
+                "POST /"        : "Create a new Tag",
+                "PUT /:id"      : "Update an existing Tag",
+                "DELETE /:id"   : "Deletes an existing Tag",
+                "GET /:id"      : "Get the data for a specific Tag",
+                "GET /list"     : "List all the existing Tags"
+            });
+
+            this.setModel(TagModel);
 
         }
 
-        list(req, res, next) {
-            var lexiconId = req.params.lexiconId;
-            Lexicon.findById(lexiconId)
-                .then(super.handleEntityNotFound(res))
-                .then(entity => res.json(entity.tags))
-                .catch(err => next(err));
+        createTag() {
+            Logger.info(`In createTag`);
+            this.setModel(new TagModel(this.body()));
+            this.create();
         }
-
-        update(req, res, next) {
-            var lexiconId = req.params.lexiconId;
-            var tag = req.body;
-            Lexicon.findById(lexiconId)
-                .then(super.handleEntityNotFound(res))
-                .then(lexicon => {
-                    lexicon.tags.id(tag._id).name = tag.name;
-                    lexicon.save(function (err) {
-                        if (err) {
-                            Logger.error('error updating tag', err);
-                            next(err);
-                        }
-                        else res.status(200).json('ok');
-                    });
-                })
-                .catch(err => next(err));
-        }
-
-        delete(req, res, next) {
-            var lexiconId = req.params.lexiconId;
-            var tagId = req.params.id;
-            Lexicon.findById(lexiconId)
-                .then(super.handleEntityNotFound(res))
-                .then(lexicon => {
-                    lexicon.tags.id(tagId).remove();
-                    lexicon.save(function (err) {
-                        if (err) {
-                            Logger.error('error deleting tag', err);
-                            next(err);
-                        }
-                        else res.status(200).json('ok');
-                    });
-                })
-                .catch(err => next(err));
-        }
+        
     }
 
     module.exports = TagController;

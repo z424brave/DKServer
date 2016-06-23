@@ -2,17 +2,19 @@
     'use strict';
 
     let express = require("express");
-    let controller = require("./tag_controller");
+    let Controller = require("./tag_controller");
     let authService = require("../../auth/auth_service");
 
     let router = new express();
-    let tagController = new controller();
 
-    router.get('/:lexiconId/tags/',  authService.hasRole('user'), tagController.list);
-    router.get('/:lexiconId/tags/:id', authService.hasRole('user'), tagController.get);
-    router.post('/:lexiconId/tags/', authService.hasRole('admin'), tagController.save);
-    router.put('/:lexiconId/tags/', authService.hasRole('admin'), tagController.update);
-    router.delete('/:lexiconId/tags/:id', authService.hasRole('admin'), tagController.delete);
+    router.get('/', (req,res) => (new Controller(req,res)).index());
+    router.get('/list', authService.hasRole('user'), (req, res) => (new Controller(req, res)).list());
+    router.get('/api/list', (req, res) => (new Controller(req, res)).list());
+    router.get('/:id', authService.hasRole('user'), (req,res) => (new Controller(req,res)).get());
+    router.get('/api/:id', (req, res) => (new Controller(req, res)).get());
+    router.post('/', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).createTag());
+    router.put('/:id', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).update());
+    router.delete('/:id', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).delete());
 
     module.exports = router;
 

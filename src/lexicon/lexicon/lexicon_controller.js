@@ -38,6 +38,16 @@
             this.create();
         }
 
+        /**
+         * Override the list() method to add the populate clause for node retrieval
+         */
+        list() {
+            Logger.info(`Lexicon Controller : list() - calling model controller listWithPopulate()`);
+            let populateObject = {};
+            populateObject.path = 'tags';
+            populateObject.select = 'name description';
+            super.listWithPopulate(populateObject);
+        }
     }
 
     module.exports = LexiconController;

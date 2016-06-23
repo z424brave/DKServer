@@ -8,6 +8,8 @@ let Language = require('../src/language/language_model');
 let Role = require('../src/role/role_model');
 let Channel = require('../src/channels/model/channels');
 let Field = require('../src/channels/model/field_schema');
+let ApplicationType = require('../src/application/applicationType_model');
+let Application = require('../src/application/application_model');
 
 const Logger = require('../src/common/logger');
 
@@ -15,11 +17,59 @@ let testUserId = "";
 let adminUserId = "";
 let userRole = "";
 let adminRole = "";
+let tag1 = "";
+let tag2 = "";
+let tag3 = "";
+let tags = [];
 
 populate_languages();
-populate_lexicons();
+populate_tags();
 populate_roles();
 populate_settings();
+populate_applicationTypes();
+
+function populate_applicationTypes() {
+    Logger.info('starting to populate application types');
+
+    ApplicationType.find({}).removeAsync()
+        .then(() => {
+            Logger.info('populating application types - after removeAsync');
+            return ApplicationType.createAsync({
+                name: 'Game Launcher Carousel Page',
+                tags: [],
+                nodes: [
+                    {
+                        nodeName: "Carousel Image",
+                        nodeType: "image",
+                        required: true,
+                        tags: []
+                    },
+                    {
+                        nodeName: "Carousel Top Title",
+                        nodeType: "text",
+                        required: true,
+                        tags: []
+                    },
+                    {
+                        nodeName: "Carousel Main Title",
+                        nodeType: "text",
+                        required: true,
+                        tags: []
+                    },
+                    {
+                        nodeName: "Carousel Text Info",
+                        nodeType: "text",
+                        required: true,
+                        tags: []
+                    }
+                ],
+                applications: []
+            })
+                .then(() => {
+                    Logger.info('finished populating application types');
+                });
+        });
+}
 
 function populate_settings() {
     Logger.info('starting to populate settings');
@@ -101,7 +151,7 @@ function populate_nodes() {
                         versionMessage: 'version 1',
                         media: [
                             {
-                                content: "launcher/Arena.png",
+                                content: "Warhammer/Arena.png",
                                 language: {
                                     name: "English",
                                     iso3166: "EN"
@@ -220,7 +270,7 @@ function populate_nodes() {
                                 {
                                     language: {
                                         name: "Spanish",
-                                        iso3166: "SP"
+                                        iso3166: "ES"
                                     },
                                     content: "Buenos Días"
                                 }
@@ -239,42 +289,104 @@ function populate_lexicons() {
             return Lexicon.createAsync({
 
                     name: "Games",
+                    description: "A lexicon for Games",
                     status: "active",
-                    tags: [
-                        {
-                            name: "Warhammer"
-                        },
-                        {
-                            name: "Attila"
-                        },
-                        {
-                            name: "Sigmar"
-                        }
-                    ]
+                    tags: [tag1, tag2]
 
                 },
                 {
 
-                    name: "Lexicon 2",
+                    name: "Game Launcher",
+                    description: "A lexicon for the Game Launcher",
                     status: "active",
-                    tags: [
-                        {
-                            name: "Tag 4"
-                        },
-                        {
-                            name: "Tag 5"
-                        },
-                        {
-                            name: "Tag 6"
-                        }
-                    ]
+                    tags: [tag2, tag3]
 
                 })
                 .then(() => {
                     Logger.info('checking tags');
                     Lexicon.findAsync({name: "Games"})
                         .then((lex) => {
-                            Logger.info(`Warhammer tag is ${lex[0].tags[0]._id}`);
+                            Logger.info(`Games lexicon has ${lex.length} tags`);
+                        });
+                });
+        });
+}
+
+function populate_tags() {
+    Logger.info('starting to populate tags');
+    Tag.find({}).removeAsync()
+        .then(() => {
+            return Tag.createAsync({
+                            name: "Game Launcher",
+                            description: "Indicates the node is related to the Game Launcher",
+                            status: "active"
+                        },
+                        {
+                            name: "GL_BackgroundImage",
+                            description: "Indicates the node references a background image for a Game Launcher game page",
+                            status: "active"
+                        },
+                        {
+                            name: "GL_LogoImage",
+                            description: "Indicates the node references a logo image for a Game Launcher game page",
+                            status: "active"
+                        },
+                        {
+                            name: "GL_Carousel_001",
+                            description: "Indicates the node relates to an instance of a Game Launcher carousel page in position 001",
+                            status: "active"
+                        },
+                        {
+                            name: "GL_Carousel_002",
+                            description: "Indicates the node relates to an instance of a Game Launcher carousel page in position 002",
+                            status: "active"
+                        },
+                        {
+                            name: "GL_Carousel_003",
+                            description: "Indicates the node relates to an instance of a Game Launcher carousel page in position 003",
+                            status: "active"
+                        },
+                        {
+                            name: "GL_Carousel_004",
+                            description: "Indicates the node relates to an instance of a Game Launcher carousel page in position 004",
+                            status: "active"
+                        },
+                        {
+                            name: "GL_Carousel_005",
+                            description: "Indicates the node relates to an instance of a Game Launcher carousel page in position 005",
+                            status: "active"
+                        },
+                        {
+                            name: "GL_Carousel_Image",
+                            description: "Indicates the node relates to the image for an instance of a Game Launcher carousel page",
+                            status: "active"
+                        },
+                        {
+                            name: "GL_Carousel_TopTitle",
+                            description: "Indicates the node relates to the top title for an instance of a Game Launcher carousel page",
+                            status: "active"
+                        },
+                        {
+                            name: "GL_Carousel_Info",
+                            description: "Indicates the node relates to the text information for an instance of a Game Launcher carousel page",
+                            status: "active"
+                        },
+                        {
+                            name: "GL_Carousel_MainTitle",
+                            description: "Indicates the node relates to the main title for an instance of a Game Launcher carousel page",
+                            status: "active"
+
+                })
+                .then(() => {
+                    Logger.info('checking tags');
+                    Tag.findAsync({})
+                        .then((tag) => {
+                            tag1 = tag[0]._id;
+                            tag2 = tag[1]._id;
+                            tag3 = tag[2]._id;
+                            tags = tag;
+                            Logger.info(`Attila tag is ${tag[0]._id}`);
+                            populate_lexicons();
                         });
                 });
         });
@@ -321,7 +433,7 @@ function populate_languages() {
                     iso3166: "EN"
                 },
                 {
-                    name: "french",
+                    name: "French",
                     iso3166: "FR"
                 },
                 {
@@ -330,7 +442,7 @@ function populate_languages() {
                 },
                 {
                     name: "Spanish",
-                    iso3166: "SP"
+                    iso3166: "ES"
                 },
                 {
                     name: "Italian",
@@ -346,11 +458,11 @@ function populate_languages() {
                 },
                 {
                     name: "Czech",
-                    iso3166: "CS"
+                    iso3166: "CZ"
                 },
                 {
                     name: "Korean",
-                    iso3166: "KO"
+                    iso3166: "KP"
                 }
             );
 
@@ -364,7 +476,7 @@ function populate_channels() {
             return Channel.createAsync(
                 {
                     name: "Twitter Channel",
-                    driver: "Twitter Driver",
+                    driver: "Twitter",
                     config: [],
                     status: "active",
                     user: testUserId

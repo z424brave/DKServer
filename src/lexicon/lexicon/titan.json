@@ -1,7 +1,7 @@
 {
   "name" : "titan.lexicon",
   "description" : "Lexicon management module",
-  "author" : "Peter Symoens",
+  "author" : "Damian Kelly",
   "version" : "1.0.0",
   "mount" : "/lexicons",
   "router" : "router.js"
