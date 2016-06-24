@@ -21,7 +21,7 @@ let tag1 = "";
 let tag2 = "";
 let tag3 = "";
 let tags = [];
-
+let carouselPageId = "";
 populate_languages();
 populate_tags();
 populate_roles();
@@ -34,7 +34,8 @@ function populate_applicationTypes() {
     ApplicationType.find({}).removeAsync()
         .then(() => {
             Logger.info('populating application types - after removeAsync');
-            return ApplicationType.createAsync({
+            return ApplicationType.createAsync(
+                {
                 name: 'Game Launcher Carousel Page',
                 tags: [],
                 nodes: [
@@ -64,11 +65,53 @@ function populate_applicationTypes() {
                     }
                 ],
                 applications: []
-            })
+            }
+            )
                 .then(() => {
                     Logger.info('finished populating application types');
+                    ApplicationType.findAsync({name: "Game Launcher Carousel Page"})
+                        .then((appType) => {
+                            carouselPageId = appType[0]._id;
+                            Logger.info(`Carousel Page is ${carouselPageId}`);
+                            populate_applicationTypes2();
+                        });
                 });
         });
+}
+
+function populate_applicationTypes2() {
+    Logger.info('starting to populate application types 2');
+
+         ApplicationType.createAsync({
+                name: 'Game Launcher Game Page',
+                tags: [],
+                nodes: [
+                    {
+                        nodeName: "Game Background Image",
+                        nodeType: "image",
+                        required: true,
+                        tags: []
+                    },
+                    {
+                        nodeName: "Game Logo Image",
+                        nodeType: "image",
+                        required: true,
+                        tags: []
+                    }
+                ],
+                applications: [
+                    {
+                        applicationType: carouselPageId,
+                        minOccurs: 0,
+                        maxOccurs: 5,
+                        defaultNumber: 3
+                    }
+                ]
+            })
+            .then(() => {
+                    Logger.info('finished populating application types 2');
+            });
+
 }
 
 function populate_settings() {

@@ -18,9 +18,10 @@
                 tags: [{type:mongoose.Schema.Types.ObjectId, ref:'Tag'}]
             }],
             applications: [{
-                applicationType: String,
+                applicationType: {type:mongoose.Schema.Types.ObjectId, ref:'ApplicationType'},
                 minOccurs: Number,
-                maxOccurs: Number
+                maxOccurs: Number,
+                defaultNumber: Number
             }]
         },
         {
