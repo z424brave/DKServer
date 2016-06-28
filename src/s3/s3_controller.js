@@ -4,8 +4,8 @@
     const path = require("path");
     let fs = require('fs');
     const TITAN_GLOBALS = require(`../core/titan_global`);
-    const ApiController = require(`${ TITAN_GLOBALS.CORE}/controllers/titan_api_controller`);
-    const Logger = require(`${ TITAN_GLOBALS.COMMON}/logger`);
+    const ApiController = require(`${TITAN_GLOBALS.CORE}`.concat('/controllers/titan_api_controller'));
+    const Logger = require(`${TITAN_GLOBALS.COMMON}`.concat('/logger'));
     const Config = require("config");
     
 	let s3 = require('s3');
@@ -92,6 +92,25 @@
                 } else {
                    console.log('success : ' + JSON.stringify(data));
                    this.send(data);
+                }
+            });
+        }
+
+        createPublishFile() {
+
+            let fileData = '';
+
+            let requestFile = this.req().query.fileName ? this.req().query.fileName : "";
+            Logger.info(`In createPublishFile in S3Controller for file - ${requestFile}`);
+            let keyName = 'publish/'.concat(requestFile);
+            let currentVersionIndex = this.body().content.length - 1 ;
+            fileData = this.body().content[currentVersionIndex].media[0].content;
+            Logger.info(`attempting :  ${JSON.stringify(fileData)}`);
+            s3Client.putObject({Key: keyName, Body: fileData}, (err, data) => {
+                if (err) {
+                    Logger.info('error : ' + JSON.stringify(err));
+                } else {
+                    Logger.info('success : ' + JSON.stringify(data));
                 }
             });
         }

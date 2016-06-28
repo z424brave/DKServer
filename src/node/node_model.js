@@ -21,6 +21,7 @@
             media: [mediaSchema],
             translated: Boolean,
             sentForTranslation: Date,
+            published: Date,
             versionNo: Number,
             versionMessage: String
         },

@@ -6,6 +6,7 @@
     let TITAN_GLOBALS = require("../../core/titan_global");
     let TitanModelController = require(`${TITAN_GLOBALS.CORE}`.concat("/controllers/titan_model_controller"));
     let Logger  = require(`${TITAN_GLOBALS.COMMON}`.concat("/logger"));
+    let s3Controller = require("../../s3/s3_controller");
 
     let NodeModel = require('../node_model');
 
@@ -76,7 +77,20 @@
                 });
 
         }
+        
+        /**
+         * Create a node
+         */
+        publishNode() {
+            let nodeId = this.id();
+            Logger.info(`publish node - ${nodeId}`);
+            Logger.info(`publish node - ${JSON.stringify(this.body())}`);
+            let s3Control = new s3Controller(this.req(), this.res());
+            s3Control.createPublishFile();
+            super.update();
 
+        }
+        
     }
 
     module.exports = NodeController;

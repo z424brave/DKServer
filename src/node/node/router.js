@@ -26,6 +26,7 @@
     router.post('/api/', authService.hasRole('user'), upLoadFile, (req,res) => (new Controller(req,res)).storeNode());
     router.delete('/:id', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).delete());
     router.put('/:id', authService.hasRole('admin'), (req,res) => (new Controller(req,res)).update());
+    router.put('/publish/:id', (req,res) => (new Controller(req,res)).publishNode());
 
     module.exports = router;
 
