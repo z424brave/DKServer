@@ -1,0 +1,8 @@
+{
+  "name" : "titan.applications",
+  "description" : "application management module",
+  "author" : "Damian Kelly",
+  "version" : "1.0.0",
+  "mount" : "/applications",
+  "router" : "router.js"
+}

@@ -8,7 +8,7 @@ let Language = require('../src/language/language_model');
 let Role = require('../src/role/role_model');
 let Channel = require('../src/channels/model/channels');
 let Field = require('../src/channels/model/field_schema');
-let ApplicationType = require('../src/application/applicationType_model');
+let ApplicationType = require('../src/application/applicationType/applicationType_model');
 let Application = require('../src/application/application_model');
 
 const Logger = require('../src/common/logger');
@@ -22,11 +22,14 @@ let tag2 = "";
 let tag3 = "";
 let tags = [];
 let carouselPageId = "";
+let gamePageId = "";
+let appId = "";
+let appId2 = "";
+
 populate_languages();
 populate_tags();
 populate_roles();
 populate_settings();
-populate_applicationTypes();
 
 function populate_applicationTypes() {
     Logger.info('starting to populate application types');
@@ -110,8 +113,349 @@ function populate_applicationTypes2() {
             })
             .then(() => {
                     Logger.info('finished populating application types 2');
+                ApplicationType.findAsync({name: "Game Launcher Game Page"})
+                    .then((appType) => {
+                        gamePageId = appType[0]._id;
+                        Logger.info(`Game Page is ${gamePageId}`);
+                        populate_applications1();
+                    });
+
             });
 
+}
+
+function populate_applications1() {
+    Logger.info('starting to populate applications 1');
+
+    Application.createAsync({
+        name: 'Damian Slide Page 1',
+        tags: [],
+        user: testUserId,
+        status: "active",
+        applicationType: carouselPageId,
+        nodes: [
+            {
+                name: "Slide Top Title",
+                user: testUserId,
+                type: "text",
+                tags: [],
+                content: [{
+                    user: testUserId,
+                    translated: false,                    
+                    versionNo: 1,
+                    versionMessage: 'version 1',
+                    media: [
+                        {
+                            content: "Slide 1 Top Title",
+                            language: {
+                                name: "English",
+                                iso3166: "EN"
+                            }
+                        }
+
+                    ]
+
+                }
+                ]
+            },
+            {
+                name: "Slide Main Title",
+                user: testUserId,
+                type: "text",
+                status: "active",
+                tags: [],
+                content: [{
+                    user: testUserId,
+                    translated: false,
+                    versionNo: 1,
+                    versionMessage: 'version 1',
+                    media: [
+                        {
+                            content: "Slide 1 Main Title",
+                            language: {
+                                name: "English",
+                                iso3166: "EN"
+                            }
+                        }
+
+                    ]
+
+                }
+                ]
+            },
+            {
+                name: "Slide Info",
+                user: testUserId,
+                type: "text",
+                status: "active",
+                tags: [],
+                content: [{
+                    user: testUserId,
+                    translated: false,
+                    versionNo: 1,
+                    versionMessage: 'version 1',
+                    media: [
+                        {
+                            content: "Slide 1 Info",
+                            language: {
+                                name: "English",
+                                iso3166: "EN"
+                            }
+                        }
+
+                    ]
+
+                }
+                ]
+            },
+            {
+                name: "Slide Image URL",
+                user: testUserId,
+                type: "image",
+                status: "active",
+                tags: [],
+                content: [{
+                    user: testUserId,
+                    translated: false,
+                    versionNo: 1,
+                    versionMessage: 'version 1',
+                    media: [
+                        {
+                            content: "Game Launcher\Background\rome.jpg",
+                            language: {
+                                name: "English",
+                                iso3166: "EN"
+                            }
+                        }
+
+                    ]
+
+                }]
+            }
+        ],
+        applicationGroups: []
+    })
+    .then(() => {
+            Logger.info('finished populating applications 1');
+            Application.findAsync({name: "Damian Slide Page 1"})
+                .then((app) => {
+                    appId = app[0]._id;
+                    Logger.info(`Slide 1 Page is ${appId}`);
+                    populate_applications2();
+                });
+        })
+        .catch((e) => {
+            Logger.info('caught error in populating applications 1');
+            Logger.info(`Error is : ${JSON.stringify(e)}`);
+        });
+
+}
+
+function populate_applications2() {
+    Logger.info('starting to populate applications 2');
+
+    Application.createAsync({
+        name: 'Damian Slide Page 2',
+        tags: [],
+        user: testUserId,
+        applicationType: carouselPageId,
+        nodes: [
+            {
+            name: "Slide Top Title",
+        user: testUserId,
+        type: "text",
+        status: "active",
+        tags: [],
+        content: [{
+        user: testUserId,
+        translated: false,
+        versionNo: 1,
+        versionMessage: 'version 1',
+        media: [
+            {
+                content: "Slide 2 Top Title",
+                language: {
+                    name: "English",
+                    iso3166: "EN"
+                }
+            }
+
+        ]
+
+    }
+    ]
+},
+    {
+        name: "Slide Main Title",
+            user: testUserId,
+        type: "text",
+        status: "active",
+        tags: [],
+        content: [{
+        user: testUserId,
+        translated: false,
+        versionNo: 1,
+        versionMessage: 'version 1',
+        media: [
+            {
+                content: "Slide 2 Main Title",
+                language: {
+                    name: "English",
+                    iso3166: "EN"
+                }
+            }
+
+        ]
+
+    }
+    ]
+    },
+    {
+        name: "Slide Info",
+            user: testUserId,
+        type: "text",
+        status: "active",
+        tags: [],
+        content: [{
+        user: testUserId,
+        translated: false,
+        versionNo: 1,
+        versionMessage: 'version 1',
+        media: [
+            {
+                content: "Slide 2 Info",
+                language: {
+                    name: "English",
+                    iso3166: "EN"
+                }
+            }
+
+        ]
+
+    }
+    ]
+    },
+    {
+        name: "Slide Image URL",
+            user: testUserId,
+        type: "image",
+        status: "active",
+        tags: [],
+        content: [{
+        user: testUserId,
+        translated: false,
+        versionNo: 1,
+        versionMessage: 'version 1',
+        media: [
+            {
+                content: "Game Launcher\Background\romeII.jpg",
+                language: {
+                    name: "English",
+                    iso3166: "EN"
+                }
+            }
+
+        ]
+
+    }
+    ]
+    }
+],
+        applicationGroups: [
+        ]
+    })
+        .then(() => {
+            Logger.info('finished populating applications 2');
+            Application.findAsync({})
+                .then((app) => {
+                    appId2 = app[1]._id;
+                    Logger.info(`Slide 2 Page is ${appId2}`);
+                    populate_applications3();
+                });
+        });
+
+}
+
+function populate_applications3() {
+    Logger.info('starting to populate applications 3');
+    Application.createAsync({
+        name: 'Damian Game Page',
+        tags: [],
+        user: testUserId,
+        publishable: true,
+        applicationType: gamePageId,
+        nodes: [
+            {
+                name: "Background Image",
+                user: testUserId,
+                type: "image",
+                status: "active",
+                tags: [],
+                content: [{
+                    user: testUserId,
+                    translated: false,
+                    versionNo: 1,
+                    versionMessage: 'version 1',
+                    media: [
+                        {
+                            content: "Game Launcher\Background\romeII.jpg",
+                            language: {
+                                name: "English",
+                                iso3166: "EN"
+                            }
+                        }
+
+                    ]
+
+                }
+                ]
+            },
+            {
+                name: "Logo Image",
+                user: testUserId,
+                type: "image",
+                status: "active",
+                tags: [],
+                content: [{
+                    user: testUserId,
+                    translated: false,
+                    versionNo: 1,
+                    versionMessage: 'version 1',
+                    media: [
+                        {
+                            content: "Game Launcher\Logo\romeII.jpg",
+                            language: {
+                                name: "English",
+                                iso3166: "EN"
+                            }
+                        }
+
+                    ]
+
+                }
+                ]
+            }
+        ],
+        applicationGroups: [
+            {
+                name: 'Slides',
+                tags: [],
+                applications: [
+                    appId,
+                    appId2
+                ]
+            }
+        ]
+    }).then(() => {
+        Logger.info('finished populating applications 3');
+        Application.findAsync({})
+            .then((app) => {
+                Logger.info(`App is ${JSON.stringify(app[0])}`);
+                Logger.info(`App is ${JSON.stringify(app[1])}`);
+                Logger.info(`App is ${JSON.stringify(app[2])}`);
+                Logger.info(`App is ${app[2].toJSON()}`);
+            });
+    });
 }
 
 function populate_settings() {
@@ -171,6 +515,7 @@ function populate_users() {
                             Logger.info(`Test User id is ${testUserId}`);
                             populate_nodes();
                             populate_channels();
+                            populate_applicationTypes();
                         });
                 });
         });

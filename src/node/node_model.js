@@ -4,10 +4,10 @@
     let mongoose = require('bluebird').promisifyAll(require('mongoose'));
     let Schema = require('mongoose').Schema;
     let Language = require('../language/language_model');
-
+    
     let mediaSchema = new Schema (
         {
-            language: Language.schema,
+            language: Language.schema ,
             content: String
         },
         {

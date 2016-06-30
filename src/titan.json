@@ -13,6 +13,8 @@
     "mail",
     "user",
     "auth",
+    "application",
+    "application/applicationType",
     "node/node",
     "node/content",
     "lexicon/lexicon",
