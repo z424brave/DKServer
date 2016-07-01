@@ -39,29 +39,29 @@ function populate_applicationTypes() {
             Logger.info('populating application types - after removeAsync');
             return ApplicationType.createAsync(
                 {
-                name: 'Game Launcher Carousel Page',
+                name: 'Game Launcher Slide Page',
                 tags: [],
                 nodes: [
                     {
-                        nodeName: "Carousel Image",
+                        nodeName: "Slide Image",
                         nodeType: "image",
                         required: true,
                         tags: []
                     },
                     {
-                        nodeName: "Carousel Top Title",
+                        nodeName: "Slide Top Title",
                         nodeType: "text",
                         required: true,
                         tags: []
                     },
                     {
-                        nodeName: "Carousel Main Title",
+                        nodeName: "Slide Main Title",
                         nodeType: "text",
                         required: true,
                         tags: []
                     },
                     {
-                        nodeName: "Carousel Text Info",
+                        nodeName: "Slide Info",
                         nodeType: "text",
                         required: true,
                         tags: []
@@ -72,10 +72,10 @@ function populate_applicationTypes() {
             )
                 .then(() => {
                     Logger.info('finished populating application types');
-                    ApplicationType.findAsync({name: "Game Launcher Carousel Page"})
+                    ApplicationType.findAsync({name: "Game Launcher Slide Page"})
                         .then((appType) => {
                             carouselPageId = appType[0]._id;
-                            Logger.info(`Carousel Page is ${carouselPageId}`);
+                            Logger.info(`Slide Page is ${carouselPageId}`);
                             populate_applicationTypes2();
                         });
                 });
@@ -105,7 +105,7 @@ function populate_applicationTypes2() {
                 applications: [
                     {
                         applicationType: carouselPageId,
-                        minOccurs: 0,
+                        minOccurs: 1,
                         maxOccurs: 5,
                         defaultNumber: 3
                     }

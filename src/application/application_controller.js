@@ -48,14 +48,26 @@
         /**
          * Override the list() method to add the populate clause for application retrieval
          */
-/*        list() {
+        list() {
             Logger.info(`ac : list() - calling model controller listWithPopulate()`);
             let populateObject = {};
-            populateObject.path = 'user';
+            populateObject.path = 'applicationType';
             populateObject.select = 'name';
             super.listWithPopulate(populateObject);
-        }*/
+        }
 
+        get() {
+            Logger.info(`In get ${this.getModel().modelName} for ${this.id()}`);
+            this.getModel().findOne({"_id": this.id()})
+                .populate('applicationType', 'name')
+                .then((data) => {
+                    this.send(data);
+                }).catch((err) => {
+                    this.notFound();
+                    Logger.error(err);
+                }
+            );
+        }
     }
 
     module.exports = ApplicationController;

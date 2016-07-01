@@ -51,6 +51,7 @@
         {
             name: String,
             applicationType: {type:mongoose.Schema.Types.ObjectId, ref:'ApplicationType'},
+            status: {type: String, default: 'active'},
             publishable: Boolean,
             user: {type:mongoose.Schema.Types.ObjectId, ref:'User'},
             tags: [{type:mongoose.Schema.Types.ObjectId, ref:'Tag'}],
