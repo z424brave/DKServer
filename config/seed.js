@@ -221,7 +221,7 @@ function populate_applications1() {
                     versionMessage: 'version 1',
                     media: [
                         {
-                            content: "Game Launcher\Background\rome.jpg",
+                            content: "Game Launcher\\Background\\rome.jpg",
                             language: {
                                 name: "English",
                                 iso3166: "EN"
@@ -312,7 +312,7 @@ function populate_applications2() {
     },
     {
         name: "Slide Info",
-            user: testUserId,
+        user: testUserId,
         type: "text",
         status: "active",
         tags: [],
@@ -337,7 +337,7 @@ function populate_applications2() {
     },
     {
         name: "Slide Image URL",
-            user: testUserId,
+        user: testUserId,
         type: "image",
         status: "active",
         tags: [],
@@ -348,7 +348,7 @@ function populate_applications2() {
         versionMessage: 'version 1',
         media: [
             {
-                content: "Game Launcher\Background\romeII.jpg",
+                content: "Game Launcher\\Background\\romeII.jpg",
                 language: {
                     name: "English",
                     iso3166: "EN"
