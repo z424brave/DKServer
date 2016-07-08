@@ -398,7 +398,7 @@ function populate_applications3() {
                     versionMessage: 'version 1',
                     media: [
                         {
-                            content: "Game Launcher\Background\romeII.jpg",
+                            content: "Game Launcher/Background/romeII.jpg",
                             language: {
                                 name: "English",
                                 iso3166: "EN"
@@ -423,7 +423,7 @@ function populate_applications3() {
                     versionMessage: 'version 1',
                     media: [
                         {
-                            content: "Game Launcher\Logo\romeII.jpg",
+                            content: "Game Launcher/Logo/romeII.jpg",
                             language: {
                                 name: "English",
                                 iso3166: "EN"
